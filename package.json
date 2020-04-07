@@ -1,0 +1,23 @@
+{
+  "name": "tamagotchiCat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass": "node-sass -w scss/ -o dist/css/ --recursive "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5ocjal/tamagotchiCat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/5ocjal/tamagotchiCat/issues"
+  },
+  "homepage": "https://github.com/5ocjal/tamagotchiCat#readme",
+  "dependencies": {
+    "node-sass": "^4.13.1"
+  }
+}
