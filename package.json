@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/5ocjal/tamagotchiCat#readme",
   "dependencies": {
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "phaser": "^3.22.0"
   }
 }

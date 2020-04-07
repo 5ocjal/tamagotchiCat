@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "gray-stand-idle-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 3607,
+				"h": 2703
+			},
+			"scale": 0.83333,
+			"frames": [
+				{
+					"filename": "__grey-cat_idle-standing_1082px_by_811px_per_frame.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3607,
+						"h": 2703
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:e61e7938d68dfda4f20c1c3088bc9eda:bc099b7b8d521520117d5ce6540e43f7:e09421cebb55fe288c4703d77f0789d1$"
+	}
+}

@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "orange-walk-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 3607,
+				"h": 2703
+			},
+			"scale": 0.83333,
+			"frames": [
+				{
+					"filename": "__orange-cat_walking_1082px_by_811px_per_frame.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3607,
+						"h": 2703
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:dcf885a7bfc6a5d1b8ab3f888acc9bba:7f26faf108a1eb9fa40826544c5d7ed5:c711f39ddde88e65324b508980c635bf$"
+	}
+}

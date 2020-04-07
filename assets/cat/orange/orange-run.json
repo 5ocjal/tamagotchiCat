@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "orange-run-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 3607,
+				"h": 2703
+			},
+			"scale": 0.83333,
+			"frames": [
+				{
+					"filename": "__orange-cat_run_1082px_by_811px_per_frame.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3607,
+						"h": 2703
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:27cde11022f3820ed7941f866d00b9f5:2f11e71077d2645b1037dc5b56ec18e6:1ee0e8adbfb93f1aeaa343133dc3618e$"
+	}
+}

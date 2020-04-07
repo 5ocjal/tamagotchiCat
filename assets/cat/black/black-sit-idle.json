@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "black-sit-idle-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 3607,
+				"h": 2703
+			},
+			"scale": 0.83333,
+			"frames": [
+				{
+					"filename": "__black-cat_idle-sitting_1082px_by_811px_per_frame.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3607,
+						"h": 2703
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:135d9d1553fc4e46cdfefd720d9f45eb:6f41c6308a447129b5962b7622fdcd15:f732aa0981febc4b64c69ccd8bd048a3$"
+	}
+}

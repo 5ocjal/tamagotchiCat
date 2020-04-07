@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "gray-walk-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 3607,
+				"h": 2703
+			},
+			"scale": 0.83333,
+			"frames": [
+				{
+					"filename": "__grey-cat_walking_1082px_by_811px_per_frame.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3607,
+						"h": 2703
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 3607,
+						"h": 2703
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:2c4ed8898ed8c8f146d11994b10ef254:fdba5c30c034b515aa2e2091550a1570:e2c54cc987f13db73d06da6ddae12b5c$"
+	}
+}
