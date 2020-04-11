@@ -2,23 +2,32 @@
   "name": "tamagotchiCat",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "sass": "node-sass -w scss/ -o dist/css/ --recursive "
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/5ocjal/tamagotchiCat.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "5ocjal",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/5ocjal/tamagotchiCat/issues"
   },
   "homepage": "https://github.com/5ocjal/tamagotchiCat#readme",
+  "devDependencies": {
+    "expose-loader": "0.7.5",
+    "ts-loader": "6.0.4",
+    "typescript": "3.5.2",
+    "webpack": "4.35.2",
+    "webpack-cli": "3.3.5",
+    "webpack-dev-server": "3.7.2"
+  },
   "dependencies": {
     "node-sass": "^4.13.1",
-    "phaser": "^3.22.0"
+    "phaser": "3.20.1"
+  },
+  "scripts": {
+    "sass": "node-sass -w styles/scss/ -o styles/css/ --recursive",
+    "dev": "webpack --mode development && webpack-dev-server --mode development",
+    "build": "webpack --mode production && webpack-dev-server --mode production"
   }
 }
