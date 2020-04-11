@@ -1,13 +1,24 @@
 import "phaser";
 import { MenuScene } from "./scenes/menu-scene";
+import { RoomScene } from "./scenes/room-scene";
 
 
 const config: Phaser.Types.Core.GameConfig = {
-  width: 800,
-  height: 600,
+  width: 900,
+  height: 700,
   type: Phaser.AUTO,
   parent: "game",
-  scene: MenuScene
+  scene: [MenuScene, RoomScene],
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 300 },
+      debug: false,
+    },
+  },
+  dom: {
+    createContainer: true,
+  },
 };
 
 export class Game extends Phaser.Game {
@@ -20,3 +31,4 @@ export class Game extends Phaser.Game {
 window.addEventListener("load", () => {
   const game = new Game(config);
 });
+

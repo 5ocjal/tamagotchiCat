@@ -2,71 +2,12 @@
 * {
   box-sizing: border-box; }
 
-:root {
-  font-size: 10px; }
-
 body {
   background: #006d8f;
   display: flex;
   justify-content: center;
   align-content: center; }
 
-.grid {
-  display: grid;
-  margin-top: 10vh;
-  grid-template-areas: "title logo" "title logo" "nameInput logo";
-  grid-gap: 5px;
-  justify-content: center;
-  text-align: center; }
-
-.title {
-  grid-area: title;
-  margin-top: 50%;
-  font-family: 'Indie Flower', cursive;
-  color: #E2FCEF;
-  font-size: 8rem; }
-
-.logo {
-  grid-area: logo;
-  position: block; }
-
-.nameInput {
-  grid-area: nameInput;
-  font-size: 2rem;
-  color: #E3B505; }
-
-#fname {
-  margin-top: 1rem;
-  text-align: center;
-  width: 20vw;
-  height: 5vh;
-  border: 4px #E3B505 solid;
-  border-radius: 10px; }
-
-.box {
-  display: flex;
-  width: 80vw;
-  height: 80vh;
-  border-radius: 45px;
-  background: #006d8f;
-  box-shadow: -9px -9px 18px #002c39, 9px 9px 18px #00aee5; }
-
-.btn {
-  width: 20vw;
-  height: 5vh;
-  font-size: 2rem;
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #006d8f;
-  border-radius: 10px;
-  background: #E3B505; }
-
-html,
-body {
-  height: 100%; }
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif; }
+#game {
+  margin-top: 5vh;
+  border-radius: 15px; }
