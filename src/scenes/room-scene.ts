@@ -1,11 +1,14 @@
-import { LoadingScreen } from './../models/loading-screen';
-import { CatColor } from './../models/enums';
-import { CatService } from '../catService';
+import { LoadingScreen } from '../shared/loading-screen';
+import { CatColor, Color } from '../shared/enums';
+import { CatService } from '../shared/catService';
 
 export class RoomScene extends Phaser.Scene {
   catService = new CatService();
   catColor: CatColor;
   loadingScreen = new LoadingScreen();
+
+  cat;
+  baseball;
 
   constructor() {
     super({
@@ -14,15 +17,15 @@ export class RoomScene extends Phaser.Scene {
   }
 
   init() {
-    this.cameras.main.setBackgroundColor('#006d8f');
+    this.cameras.main.setBackgroundColor(Color.BLUE);
     this.catColor = this.catService.getCatColor();
-    console.log('CC: ', this.catColor);
   }
 
   preload() {
       this.loadingScreen.showLoadingProgress(this);
       this.load.image('room', '../../assets/room/room.jpg');
       this.load.image('floor', '../../assets/room/ground.png');
+      this.load.image('baseball', '../../assets/items/base-ball.png');
       this.load.spritesheet('catWalk', '../../assets/cat/' + this.catColor + '/walk.png', { frameWidth: 1082, frameHeight: 811 });
       this.load.spritesheet('catRun', '../../assets/cat/' + this.catColor + '/run.png', { frameWidth: 1082, frameHeight: 811 });
       this.load.spritesheet('catIdle', '../../assets/cat/' + this.catColor + '/idle.png', { frameWidth: 1082, frameHeight: 811 });
@@ -32,15 +35,29 @@ export class RoomScene extends Phaser.Scene {
   create() {
     this.add.image(450, 350, 'room').setScale(0.7);
 
-    let floor = this.physics.add.staticGroup();
+    let floor = this.physics.add.staticGroup();    
+    this.baseball = this.physics.add.sprite(150, 20, 'baseball');
+    this.cat = this.physics.add.sprite(450, 350, 'catWalk');
+    
     floor.create(450, 622, 'floor').setScale(2).refreshBody();
+    this.baseball
+    .setVelocity(200,200)
+    .setBounce(0.7)
+    .setCollideWorldBounds(true)
+    .setScale(0.04);
+    
+    this.cat
+    .setFrame('1')
+    .setBounce(0.4)
+    .setCollideWorldBounds(true)
+    .setScale(0.14, 0.14)
 
-    let cat = this.physics.add.sprite(450, 350, 'catWalk');
-
-    cat.setFrame('1').setScale(0.14).setBounce(0.4).setCollideWorldBounds(true);
-
-    this.physics.add.collider(floor, cat);
+    this.physics.add.collider(floor, this.cat);
+    this.physics.add.collider(floor, this.baseball);
+    this.physics.add.collider(this.cat, this.baseball);
   }
 
-  update() {}
+  update() {
+    this.baseball.rotation += this.baseball.body.velocity.x / 1300;
+  }
 }

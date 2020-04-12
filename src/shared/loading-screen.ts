@@ -1,3 +1,5 @@
+import { Color } from "./enums";
+
 export class LoadingScreen {
     
     showLoadingProgress(game){
@@ -15,7 +17,7 @@ export class LoadingScreen {
             text: 'Budzenie kota...',
             style: {
                 font: '18px Roboto',
-                fill: '#ffbf00',
+                fill: Color.ORANGE,
             },
         });
         loadingText.setDepth(2);
@@ -27,7 +29,7 @@ export class LoadingScreen {
             text: '0%',
             style: {
                 font: '18px Roboto',
-                fill: '#ffbf00',
+                fill: Color.ORANGE,
             },
         });
         percentText.setDepth(2);

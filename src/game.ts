@@ -30,5 +30,6 @@ export class Game extends Phaser.Game {
 // when the page is loaded, create our game instance
 window.addEventListener("load", () => {
   const game = new Game(config);
+  window.focus();
 });
 

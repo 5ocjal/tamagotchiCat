@@ -1,4 +1,4 @@
-import { CatColor } from './models/enums';
+import { CatColor } from './enums';
 export class CatService {
   catName: string = 'Kotek';
   catColor: CatColor = CatColor.ORANGE;
@@ -17,5 +17,9 @@ export class CatService {
 
   getCatColor(): CatColor {
     return this.catColor;
+  }
+
+  saveGame(){
+    
   }
 }
