@@ -1,5 +1,6 @@
 export class CatService {
   catName: string = 'Kotek';
+  catColor: string;
 
   setCatName(name) {
     this.catName = name;
@@ -8,4 +9,6 @@ export class CatService {
   getCatName() {
     return this.catName;
   }
+
+  setCat
 }
