@@ -13,16 +13,21 @@ export class RoomScene extends Phaser.Scene {
     }
     
     preload(){
-        console.log('room')
+        this.load.image('room', '../../assets/room/room.jpg');
+        this.load.spritesheet('catWalk', '../../assets/cat/black/walk.png', {frameWidth: 1082, frameHeight: 811});
+        
 
     }
 
     create(){
-        this.add.text(100, 100, 'ROOM', {
-          fontFamily: 'Indie Flower',
-          fontSize: '75px',
-          fill: '#E2FCEF',
-        });
+        this.add.sprite(450, 350, 'room').setScale(0.7);
+
+        let cat = this.add.sprite(450, 300, 'catWalk');
+        cat
+            .setScale(0.2)
+            .setFrame('1');
+
+
     }
 
     update(){
