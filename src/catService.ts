@@ -1,14 +1,21 @@
+import { CatColor } from './models/enums';
 export class CatService {
   catName: string = 'Kotek';
-  catColor: string;
+  catColor: CatColor = CatColor.ORANGE;
 
-  setCatName(name) {
+  setCatName(name: string) {
     this.catName = name;
   }
 
-  getCatName() {
+  getCatName(): string {
     return this.catName;
   }
 
-  setCat
+  setCatColor(color: CatColor){
+    this.catColor = color;
+  }
+
+  getCatColor(): CatColor {
+    return this.catColor;
+  }
 }

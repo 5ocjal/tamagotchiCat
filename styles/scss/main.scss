@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
 $appBackground: #006d8f;
-$appShadowDark: #002c39;
-$appShadowLight: #00aee5;
+$appShadowDark: #004257;
+$appShadowLight: #03baf1;
 $colorOne: #ffbf00;
 $colorTwo: #E2FCEF;
 
@@ -19,4 +19,12 @@ body {
 
 #game {
     margin-top: 5vh;
+}
+
+canvas {
+    border: $colorOne 5px solid;
+    background: $appBackground !important;
+    border-radius: 25px;
+    box-shadow: 22px 22px 44px $appShadowDark,
+        -22px -22px 44px $appShadowLight;
 }
