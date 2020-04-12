@@ -63,8 +63,7 @@ export class MenuScene extends Phaser.Scene {
 
   update(): void {}
 
-  startGame() {
-    console.log('Name:', this.catService.getCatName());
+  startGame() {;
     this.scene.start('RoomScene');
   }
 }

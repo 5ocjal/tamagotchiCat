@@ -1,23 +1,31 @@
-import { CatColor } from './enums';
+import { CatColor, CatHealth } from './enums';
 export class CatService {
-  catName: string = 'Kotek';
-  catColor: CatColor = CatColor.ORANGE;
+  
+  color: CatColor = CatColor.ORANGE;
+  name: string = 'Kotek';
+  happiness: number;
+  hunger: number;
+  energy: number;
+  health: CatHealth;
+
 
   setCatName(name: string) {
-    this.catName = name;
+    this.name = name;
   }
 
   getCatName(): string {
-    return this.catName;
+    return this.name;
   }
 
   setCatColor(color: CatColor){
-    this.catColor = color;
+    this.color = color;
   }
 
   getCatColor(): CatColor {
-    return this.catColor;
+    return this.color;
   }
+
+
 
   saveGame(){
     

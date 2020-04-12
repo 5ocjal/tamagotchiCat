@@ -9,3 +9,10 @@ export enum Color {
   WHITE = '#E2FCEF',
   BLUE = '#006d8f',
 }
+
+export enum CatHealth {
+  FIT = 'fit',
+  SICK = 'sick',
+  TIRED = 'tired',
+  SLEEPY = 'sleepy',
+}
