@@ -1,88 +1,92 @@
 import { CatColor, CatHealth, CatActivity, CatDirection } from './enums';
 export class CatService {
-  
-  cat = {
-    name: 'Kotek',
-    color: CatColor.ORANGE,
-    activity: CatActivity.RUN,
-    happiness: 100,
-    hunger: 100,
-    energy: 100,
-    health: CatHealth.FIT,
-    direction: CatDirection.RIGHT
-  }
+         cat = {
+           name: 'Rudek',
+           color: CatColor.ORANGE,
+           activity: CatActivity.RUN,
+           happiness: 100,
+           hunger: 100,
+           thirst: 100,
+           energy: 100,
+           health: CatHealth.FIT,
+           direction: CatDirection.RIGHT,
+         };
 
+         setCatName(name: string) {
+           this.cat.name = name;
+         }
 
-  setCatName(name: string) {
-    this.cat.name = name;
-  }
+         getCatName(): string {
+           return this.cat.name;
+         }
 
-  getCatName(): string {
-    return this.cat.name;
-  }
+         setCatColor(color: CatColor) {
+           this.cat.color = color;
+         }
 
-  setCatColor(color: CatColor){
-    this.cat.color = color;
-  }
+         getCatColor(): CatColor {
+           return this.cat.color;
+         }
 
-  getCatColor(): CatColor {
-    return this.cat.color;
-  }
+         serCatActivity(activiti: CatActivity) {
+           this.cat.activity = activiti;
+         }
 
-  serCatActivity(activiti: CatActivity){
-    this.cat.activity = activiti;
-  }
+         getCatActivity(): CatActivity {
+           return this.cat.activity;
+         }
 
-  getCatActivity(): CatActivity {
-    return this.cat.activity;
-  }
+         setCatHappiness(happines: number) {
+           this.cat.happiness = happines;
+         }
 
-  setCatHappiness(happines: number){
-    this.cat.happiness = happines;
-  }
+         getCatHappiness(): number {
+           return this.cat.happiness;
+         }
 
-  getCatHappiness(): number{
-    return this.cat.happiness;
-  }
+         setCatHunger(hunger: number) {
+           this.cat.hunger = hunger;
+         }
 
-  setCatHunger(hunger: number){
-    this.cat.hunger = hunger;
-  }
+         getCatHunger(): number {
+           return this.cat.hunger;
+         }
 
-  getCatHunger(): number{
-    return this.cat.hunger;
-  }
+         setCatThirst(thirst: number) {
+           this.cat.thirst = thirst;
+         }
 
-  setCatEnergy(energy: number){
-    this.cat.energy = energy;
-  }
+         getCatThirst(): number {
+           return this.cat.thirst;
+         }
 
-  getCatEnergy(): number{
-    return this.cat.energy;
-  }
+         setCatEnergy(energy: number) {
+           this.cat.energy = energy;
+         }
 
-  setCatHealth(health: CatHealth){
-    this.cat.health = health;
-  }
+         getCatEnergy(): number {
+           return this.cat.energy;
+         }
 
-  getCatHealth(): CatHealth{
-    return this.cat.health;
-  }
+         setCatHealth(health: CatHealth) {
+           this.cat.health = health;
+         }
 
-  setCatDirection(direction: CatDirection) {
-    this.cat.direction = direction;
-  }
+         getCatHealth(): CatHealth {
+           return this.cat.health;
+         }
 
-  getCatDirection(): CatDirection {
-    return this.cat.direction;
-  }
+         setCatDirection(direction: CatDirection) {
+           this.cat.direction = direction;
+         }
 
+         getCatDirection(): CatDirection {
+           return this.cat.direction;
+         }
 
-  loadCatState() {
-    return this.cat;
-  }
+         loadCatState() {
+           return this.cat;
+         }
 
-  saveCatState(){
-    
-  }
-}
+         saveCatState() {}
+       }

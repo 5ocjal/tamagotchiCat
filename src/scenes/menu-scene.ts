@@ -54,7 +54,7 @@ export class MenuScene extends Phaser.Scene {
       this.startGame();
     });
 
-    this.add.sprite(650, 400, 'catLogo').setScale(0.8);
+    this.add.sprite(650, 400, 'catLogo').setScale(.8);
   }
 
   update(): void {}

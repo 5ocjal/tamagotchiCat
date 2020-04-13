@@ -8,6 +8,8 @@ export enum Color {
   ORANGE = '#ffbf00',
   WHITE = '#E2FCEF',
   BLUE = '#006d8f',
+  RED = '#f72f00',
+  NIGHTTINT = 0x605e63,
 }
 
 export enum CatActivity {
