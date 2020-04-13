@@ -6,11 +6,15 @@ import { RoomScene } from "./scenes/room-scene";
 const config: Phaser.Types.Core.GameConfig = {
   width: 900,
   height: 700,
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   type: Phaser.AUTO,
-  parent: "game",
+  parent: 'game',
   scene: [MenuScene, RoomScene],
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { y: 300 },
       debug: true,

@@ -28,14 +28,3 @@ export enum CatDirection {
   LEFT = 'Left',
   RIGHT = 'Right'
 }
-
-export enum AnimationKey {
-  STANDLEFT = 'standLeft',
-  IDLELEFT = 'idleLeft',
-  WALKLEFT = 'walkLeft',
-  RUNLEFT = 'runLeft',
-  STANDRIGHT = 'standRight',
-  IDLERIGHT = 'idleRight',
-  WALKRIGHT = 'walkRight',
-  RUNRIGHT = 'runRight',
-}
