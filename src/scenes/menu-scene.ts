@@ -18,9 +18,7 @@ export class MenuScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image('catLogo', '../../assets/catLogo.png');
-    this.load.image('buttonUp', '../../assets/gui/longBtn.png');
-    this.load.image('buttonDown', '../../assets/gui/longBtnDown.png');
-    this.load.spritesheet('buttons', '../../assets/gui/buttons.png', { frameWidth: 435, frameHeight: 200 });
+    this.load.image('button', '../../assets/gui/button.png');
   }
 
   create(): void {
@@ -37,10 +35,9 @@ export class MenuScene extends Phaser.Scene {
       fill: Color.ORANGE,
     });
 
-    const buttonSprite = this.add.sprite(290, 560, 'buttons').setDisplaySize(200, 70).setFrame('6').setInteractive();
+    const buttonSprite = this.add.sprite(290, 560, 'button').setDisplaySize(200, 50).setFrame('6').setInteractive();
 
     buttonSprite.on('pointerdown', () => {
-      buttonSprite.setTint(0xebb64d);
       this.startGame();
     });
 
@@ -54,7 +51,6 @@ export class MenuScene extends Phaser.Scene {
       .setInteractive();
 
     buttonText.on('pointerdown', () => {
-      buttonSprite.setTint(0xebb64d);
       this.startGame();
     });
 

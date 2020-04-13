@@ -12,6 +12,8 @@ export class RoomScene extends Phaser.Scene {
   catState = this.catService.loadCatState();
   cat;
   ball;
+  isDay = true;
+  timerRun = false;
   timer;
   randomEvent: number;
 
@@ -28,7 +30,8 @@ export class RoomScene extends Phaser.Scene {
 
   preload() {
     this.loadingScreen.showLoadingProgress(this);
-    this.load.image('room', '../../assets/room/room.jpg');
+    this.load.image('roomDay', '../../assets/room/roomDay.jpg');
+    this.load.image('roomNight', '../../assets/room/roomNight.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
@@ -53,12 +56,12 @@ export class RoomScene extends Phaser.Scene {
   create() {
     console.log('%cCAT STATE: ', 'color: orange;', this.catState);
 
-    this.add.image(450, 350, 'room').setScale(0.7);
-    this.timer = this.add.text(50, 80, '', {fontSize: '20px'})
-    this.add.text(50, 50, 'Game Time: ', {fontSize: '20px'})
+    this.add.image(450, 350, 'roomNight');
+    this.timer = this.add.text(50, 40, '', {fontSize: '20px'})
+    this.add.text(50, 20, 'Time: ', {fontSize: '20px'})
 
     let floor = this.physics.add.staticGroup();
-    floor.create(450, 622, 'floor').setScale(2).setVisible(false).refreshBody();
+    floor.create(450, 680, 'floor').setScale(2).setVisible(false);
 
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
@@ -76,7 +79,7 @@ export class RoomScene extends Phaser.Scene {
       .setBounce(0.2)
       .setMass(120)
       .setCollideWorldBounds(true)
-
+      .setTint(0x605e63)
       .setScale(0.14, 0.14)
       .setDrag(15)
       .play('idle');
@@ -89,20 +92,17 @@ export class RoomScene extends Phaser.Scene {
 
   update() {
 
-    this.timer.setText((this.time.now /1000).toFixed(2));
-
+    
+    this.timerRun ? this.timer.setText((this.time.now /1000).toFixed(2)): this.timer.setText('No time');
     this.ball.active === true ?  this.ball.rotation += this.ball.body.velocity.x / 1300 : null;
     
   }
 
   catAttitude() {
-    console.log('Cat is alive')
     this.ball.destroy();
+    this.timerRun = true;
+    console.log('Cat is alive')
 
-    setInterval(() => {
-
-      console.log('TIMER:', this.timer._text)
-    }, 5000)
 
 
   }
