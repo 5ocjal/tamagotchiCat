@@ -11,6 +11,7 @@ export class RoomScene extends Phaser.Scene {
   catState = this.catService.loadCatState();
   cat;
   ball;
+  dialog;
   isDay = true;
   timerRun = false;
   timer;
@@ -38,6 +39,7 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('energy', '../assets/gui/icons/energy.png');
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
+    this.load.image('dialog', '../../assets/gui/dialog.png')
     this.load.spritesheet('walk', '../../assets/cat/' + this.catState.color + '/walk.png', {
       frameWidth: 1082,
       frameHeight: 811,
@@ -54,12 +56,14 @@ export class RoomScene extends Phaser.Scene {
       frameWidth: 1082,
       frameHeight: 811,
     });
+
+    this.load.image('sleep', '../../assets/cat/' + this.catState.color + '/sleep.png');
   }
 
   create() {
     console.log('%cCAT STATE: ', 'color: orange;', this.catState);
 
-    this.physics.world.setBounds(-200, 0, 1700, 700);
+    this.physics.world.setBounds(-550, 0, 2000, 700);
 
     this.add.image(450, 350, 'roomNight');
     let panel = this.add
@@ -92,7 +96,7 @@ export class RoomScene extends Phaser.Scene {
       .setScrollFactor(0);
 
     let floor = this.physics.add.staticGroup();
-    floor.create(450, 660, 'floor').setSize(1800, 50).setVisible(false);
+    floor.create(450, 660, 'floor').setSize(2100, 50).setVisible(false);
 
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
@@ -115,10 +119,11 @@ export class RoomScene extends Phaser.Scene {
       .setDrag(10)
       .play('idle');
 
+    this.dialog = this.add.image(this.cat.x + 15, this.cat.y - 150, 'dialog').setScale(.4).setAlpha(0.8);
     this.physics.add.collider(this.cat, [this.ball, floor]);
     this.physics.add.collider(this.ball, [this.cat, floor]);
 
-    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
+    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230).shakeEffect;
 
     this.catMonitor();
     this.catAttitude();
@@ -128,7 +133,7 @@ export class RoomScene extends Phaser.Scene {
     this.energy.setText(this.catState.energy.toString());
     console.log('CAT', this.cat.x);
 
-    this.cat.x <= 110 || this.cat.x >= 760
+    this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
 
@@ -136,6 +141,8 @@ export class RoomScene extends Phaser.Scene {
       ? this.timer.setText((this.time.now / 1000).toFixed(2))
       : this.timer.setText('No time');
 
+    this.dialog.x = this.cat.x + 15;
+    this.dialog.y = this.cat.y -150;
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
   }
 
@@ -154,6 +161,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
       this.cat.setVelocity(0);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -165,6 +173,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
       this.cat.setVelocity(0);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -175,7 +184,8 @@ export class RoomScene extends Phaser.Scene {
       this.cat.play('walk');
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
-      this.cat.setVelocity(-50);
+      this.cat.setVelocityX(-60);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -186,7 +196,8 @@ export class RoomScene extends Phaser.Scene {
       this.cat.play('run');
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
-      this.cat.setVelocity(-150);
+      this.cat.setVelocity(-150, -40);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -198,6 +209,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
       this.cat.setVelocity(0);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -209,6 +221,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
       this.cat.setVelocity(0);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -219,7 +232,8 @@ export class RoomScene extends Phaser.Scene {
       this.cat.play('walk');
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
-      this.cat.setVelocity(50);
+      this.cat.setVelocityX(60);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
@@ -230,12 +244,14 @@ export class RoomScene extends Phaser.Scene {
       this.cat.play('run');
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
-      this.cat.setVelocity(150);
+      this.cat.setVelocity(150, 40);
+
       setTimeout(() => {
         this.inAction = false;
         this.catAttitude();
       }, this.getRandom());
     }
+
   }
 
   catMonitor() {
@@ -252,12 +268,14 @@ export class RoomScene extends Phaser.Scene {
   }
 
   pickAction() {
-    if (this.cat.x <= -20) {
-      return Phaser.Math.Between(6, 7);
-    } else if (this.cat.x >= 1000) {
-      return Phaser.Math.Between(2, 3);
-    } else {
-      return Phaser.Math.Between(0, 7);
+   
+      if (this.cat.x <= -20) {
+        return Phaser.Math.Between(6, 7);
+      } else if (this.cat.x >= 1000) {
+        return Phaser.Math.Between(2, 3);
+      } else {
+        return Phaser.Math.Between(0, 7);
+      }
     }
-  }
+  
 }

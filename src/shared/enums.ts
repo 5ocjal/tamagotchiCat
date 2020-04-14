@@ -16,7 +16,8 @@ export enum CatActivity {
   IDLE = 'idle',
   STAND = 'stand',
   WALK = 'walk',
-  RUN = 'run'
+  RUN = 'run',
+  SLEEP = 'sleep'
 }
 
 export enum CatHealth {
