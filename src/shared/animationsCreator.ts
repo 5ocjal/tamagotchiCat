@@ -35,5 +35,13 @@ export class AnimationsCreator {
       repeat: -1,
       hideOnComplete: true,
     });
+
+    scene.anims.create({
+      key: 'mouseRun',
+      frames: scene.anims.generateFrameNumbers('mouseRun', { start: 1, end: 16 }),
+      frameRate: 120,
+      repeat: -1,
+      hideOnComplete: true,
+    });
   }
 }

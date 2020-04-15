@@ -10,8 +10,10 @@ export class RoomScene extends Phaser.Scene {
 
   catState = this.catService.loadCatState();
   cat;
+  mouse;
   ball;
   dialog;
+  dialogIcon;
   isDay = true;
   timerRun = false;
   timer;
@@ -35,11 +37,14 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('roomDay', '../../assets/room/roomDay.jpg');
     this.load.image('roomNight', '../../assets/room/roomNight.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
+
     this.load.image('panel', '../../assets/gui/panel.png');
     this.load.image('energy', '../assets/gui/icons/energy.png');
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
-    this.load.image('dialog', '../../assets/gui/dialog.png')
+    this.load.image('dialog', '../../assets/gui/dialog.png');
+    this.load.image('mouseIcon', '../../assets/gui/icons/mouse.png');
+
     this.load.spritesheet('walk', '../../assets/cat/' + this.catState.color + '/walk.png', {
       frameWidth: 1082,
       frameHeight: 811,
@@ -58,6 +63,11 @@ export class RoomScene extends Phaser.Scene {
     });
 
     this.load.image('sleep', '../../assets/cat/' + this.catState.color + '/sleep.png');
+
+    this.load.spritesheet('mouseRun', '../../assets/mouse/run.png', {
+      frameWidth: 1009,
+      frameHeight: 748,
+    });
   }
 
   create() {
@@ -101,6 +111,7 @@ export class RoomScene extends Phaser.Scene {
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
     this.cat = this.physics.add.sprite(350, 570, 'idle');
+    this.mouse = this.physics.add.sprite(-450, 570, 'mouseRun').setScale(0.1);
 
     this.ball
       .setVelocity(-300, 300)
@@ -119,19 +130,31 @@ export class RoomScene extends Phaser.Scene {
       .setDrag(10)
       .play('idle');
 
-    this.dialog = this.add.image(this.cat.x + 15, this.cat.y - 150, 'dialog').setScale(.4).setAlpha(0.8);
+
+    this.dialog = this.add
+      .image(this.cat.x + 15, this.cat.y - 150, 'dialog')
+      .setScale(0.4)
+      .setAlpha(0.8)
+      .setVisible(false);
+
+    this.dialogIcon = this.physics.add.staticImage(0,0, 'mouseIcon').setScale(0.08).refreshBody().setVisible(false);
+
     this.physics.add.collider(this.cat, [this.ball, floor]);
     this.physics.add.collider(this.ball, [this.cat, floor]);
+    this.physics.add.collider(this.mouse, [this.ball, floor]);
+    this.physics.add.overlap(this.cat, this.mouse, () => {
+      this.showDialog('mouse');
+    });
 
     this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230).shakeEffect;
 
     this.catMonitor();
     this.catAttitude();
+    this.mouseRun();
   }
 
   update() {
     this.energy.setText(this.catState.energy.toString());
-    console.log('CAT', this.cat.x);
 
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
@@ -142,8 +165,15 @@ export class RoomScene extends Phaser.Scene {
       : this.timer.setText('No time');
 
     this.dialog.x = this.cat.x + 15;
-    this.dialog.y = this.cat.y -150;
+    this.dialog.y = this.cat.y - 150;
+    if (this.dialog.visible === true) {
+      this.dialogIcon.x = this.dialog.x / 2 +150;
+      this.dialogIcon.y = this.dialog.y -15;
+    }
+
+
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
+    this.mouse.active === true && this.mouse.x === 1400 ? this.mouse.destroy() : null;
   }
 
   catAttitude() {
@@ -251,7 +281,6 @@ export class RoomScene extends Phaser.Scene {
         this.catAttitude();
       }, this.getRandom());
     }
-
   }
 
   catMonitor() {
@@ -268,14 +297,32 @@ export class RoomScene extends Phaser.Scene {
   }
 
   pickAction() {
-   
-      if (this.cat.x <= -20) {
-        return Phaser.Math.Between(6, 7);
-      } else if (this.cat.x >= 1000) {
-        return Phaser.Math.Between(2, 3);
-      } else {
-        return Phaser.Math.Between(0, 7);
-      }
+    if (this.cat.x <= -20) {
+      return Phaser.Math.Between(6, 7);
+    } else if (this.cat.x >= 1000) {
+      return Phaser.Math.Between(2, 3);
+    } else {
+      return Phaser.Math.Between(0, 7);
     }
-  
+  }
+
+  mouseRun() {
+    this.mouse.play('mouseRun').setVelocityX(220);
+  }
+
+  showDialog(info) {
+    this.dialog.setVisible(true);
+
+    if (info === 'mouse') {
+
+      this.cat.play('run')
+      this.cat.setVelocityY(-100);
+      this.dialogIcon.setVisible(true);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 500);
+    }
+  }
 }
