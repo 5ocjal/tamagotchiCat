@@ -39,8 +39,8 @@ export class RoomScene extends Phaser.Scene {
 
   preload() {
     this.loadingScreen.showLoadingProgress(this);
-    this.load.image('roomDay', '../../assets/room/roomDayG.jpg');
-    this.load.image('roomNight', '../../assets/room/roomNightG.jpg');
+    this.load.image('roomDay', '../../assets/room/roomDayB.jpg');
+    this.load.image('roomNight', '../../assets/room/roomNightB.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
 
     this.load.image('panel', '../../assets/gui/panel.png');
@@ -77,13 +77,12 @@ export class RoomScene extends Phaser.Scene {
   }
 
   create() {
-    console.log('%cCAT STATE: ', 'color: orange;', this.catState);
 
     this.physics.world.setBounds(-550, 0, 2000, 700);
     this.time.addEvent({delay: 1000, callback: this.updateTimer, callbackScope: this, repeat: -1})
 
-    this.roomDay = this.add.image(450, 350, 'roomDay').setDepth(-1).setVisible(true);
-    this.roomNight = this.add.image(450, 350, 'roomNight').setDepth(-1).setVisible(false);
+    this.roomDay = this.add.image(450, 300, 'roomDay').setDepth(-1).setVisible(true);
+    this.roomNight = this.add.image(450, 300, 'roomNight').setDepth(-1).setVisible(false);
     let panel = this.add
       .image(450, 20, 'panel')
       .setOrigin(0.5, 0)
@@ -229,7 +228,7 @@ export class RoomScene extends Phaser.Scene {
       this.catState.activity = CatActivity.WALK;
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
-      this.cat.setVelocityX(-60);
+      this.cat.setVelocityX(-90);
 
       setTimeout(() => {
         this.inAction = false;
@@ -242,7 +241,7 @@ export class RoomScene extends Phaser.Scene {
       this.catState.activity = CatActivity.RUN;
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
-      this.cat.setVelocity(-150, -40);
+      this.cat.setVelocity(-200, -30);
 
       setTimeout(() => {
         this.inAction = false;
@@ -281,7 +280,7 @@ export class RoomScene extends Phaser.Scene {
       this.catState.activity = CatActivity.WALK;
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
-      this.cat.setVelocityX(60);
+      this.cat.setVelocityX(90);
 
       setTimeout(() => {
         this.inAction = false;
@@ -294,7 +293,7 @@ export class RoomScene extends Phaser.Scene {
       this.catState.activity = CatActivity.RUN;
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
-      this.cat.setVelocity(150, 40);
+      this.cat.setVelocity(200, 30);
 
       setTimeout(() => {
         this.inAction = false;

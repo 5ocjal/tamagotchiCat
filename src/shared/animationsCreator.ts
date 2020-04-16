@@ -23,7 +23,7 @@ export class AnimationsCreator {
     scene.anims.create({
       key: 'walk',
       frames: scene.anims.generateFrameNumbers('walk', { start: 1, end: 16 }),
-      frameRate: 10,
+      frameRate: 20,
       repeat: -1,
       hideOnComplete: true,
     });
@@ -31,7 +31,7 @@ export class AnimationsCreator {
     scene.anims.create({
       key: 'run',
       frames: scene.anims.generateFrameNumbers('run', { start: 1, end: 16 }),
-      frameRate: 10,
+      frameRate: 40,
       repeat: -1,
       hideOnComplete: true,
     });
