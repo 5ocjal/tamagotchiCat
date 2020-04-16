@@ -9,7 +9,6 @@ export class CatService {
            thirst: 100,
            energy: 100,
            health: CatHealth.FIT,
-           direction: CatDirection.RIGHT,
          };
 
          setCatName(name: string) {
@@ -74,14 +73,6 @@ export class CatService {
 
          getCatHealth(): CatHealth {
            return this.cat.health;
-         }
-
-         setCatDirection(direction: CatDirection) {
-           this.cat.direction = direction;
-         }
-
-         getCatDirection(): CatDirection {
-           return this.cat.direction;
          }
 
          loadCatState() {
