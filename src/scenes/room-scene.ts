@@ -1,5 +1,5 @@
 import { LoadingScreen } from '../shared/loading-screen';
-import { Color, CatActivity } from '../shared/enums';
+import { Color, CatActivity, CatColor } from '../shared/enums';
 import { CatService } from '../shared/catService';
 import { AnimationsCreator } from '../shared/animationsCreator';
 
@@ -9,7 +9,8 @@ export class RoomScene extends Phaser.Scene {
   animService = new AnimationsCreator();
 
   catState = this.catService.loadCatState();
-  room;
+  roomDay;
+  roomNight;
   cat;
   mouse;
   ball;
@@ -17,8 +18,10 @@ export class RoomScene extends Phaser.Scene {
   dialog;
   dialogIcon;
   isDay = true;
+  dayCycle = 30;
   timerRun = false;
   timer;
+  clock = 0;
   inAction = false;
   randomEvent: number;
 
@@ -36,8 +39,8 @@ export class RoomScene extends Phaser.Scene {
 
   preload() {
     this.loadingScreen.showLoadingProgress(this);
-    this.load.image('roomDay', '../../assets/room/roomDay.jpg');
-    this.load.image('roomNight', '../../assets/room/roomNight.jpg');
+    this.load.image('roomDay', '../../assets/room/roomDayG.jpg');
+    this.load.image('roomNight', '../../assets/room/roomNightG.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
 
     this.load.image('panel', '../../assets/gui/panel.png');
@@ -77,8 +80,10 @@ export class RoomScene extends Phaser.Scene {
     console.log('%cCAT STATE: ', 'color: orange;', this.catState);
 
     this.physics.world.setBounds(-550, 0, 2000, 700);
+    this.time.addEvent({delay: 1000, callback: this.updateTimer, callbackScope: this, repeat: -1})
 
-    this.room = this.add.image(450, 350, 'roomNight');
+    this.roomDay = this.add.image(450, 350, 'roomDay').setDepth(-1).setVisible(true);
+    this.roomNight = this.add.image(450, 350, 'roomNight').setDepth(-1).setVisible(false);
     let panel = this.add
       .image(450, 20, 'panel')
       .setOrigin(0.5, 0)
@@ -129,7 +134,7 @@ export class RoomScene extends Phaser.Scene {
       .setBounce(0.2)
       .setMass(120)
       .setCollideWorldBounds(true)
-      .setTint(Color.NIGHTTINT)
+      .setTint()
       .setScale(0.14, 0.14)
       .setDrag(10)
       .play('idle');
@@ -169,7 +174,7 @@ export class RoomScene extends Phaser.Scene {
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
 
     this.timerRun
-      ? this.timer.setText((this.time.now / 1000).toFixed(2))
+      ? this.timer.setText(this.clock.toString())
       : this.timer.setText('No time');
 
     this.dialog.x = this.cat.x + 15;
@@ -181,10 +186,6 @@ export class RoomScene extends Phaser.Scene {
 
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
     this.mouse.active === true && this.mouse.x === 1400 ? this.mouse.destroy() : null;
-    if(this.timer === '20'){
-      this.isDay = true;
-      this.dayNightChanger();
-    }
   }
 
   catAttitude() {
@@ -352,7 +353,9 @@ export class RoomScene extends Phaser.Scene {
   }
 
   mouseRun() {
-    this.mouse.play('mouseRun').setVelocityX(220);
+    if(!this.isDay){
+      this.mouse.play('mouseRun').setVelocityX(220);
+    }
   }
 
   showDialog(info) {
@@ -372,11 +375,31 @@ export class RoomScene extends Phaser.Scene {
 
   dayNightChanger(){
 
-    if(this.isDay){
-      this.room.setTexture(450, 350, 'roomDay');
+    console.log('Day/Night', this.isDay)
+    this.isDay = !this.isDay;
+    console.log('isDay', this.isDay)
 
+    if(this.isDay){
+      this.dayCycle = 30;
+      this.roomDay.setVisible(true);
+      this.roomNight.setVisible(false);
+      this.cat.setTint();
     }else{
-      this.room.setTexture(450, 350, 'roomNight');
+      this.dayCycle = 10;
+      this.roomDay.setVisible(false);
+      this.roomNight.setVisible(true);
+      this.cat.setTint(Color.NIGHTTINT)
+      this.mouseRun();
+    }
+
+  }
+
+  updateTimer(){
+    if(this.clock < this.dayCycle ){
+      this.clock++;
+    }else{
+      this.dayNightChanger();
+      this.clock = 0;
     }
   }
 }
