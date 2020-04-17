@@ -6,7 +6,7 @@ export class LoadingScreen {
 
         const progressBar = game.add.graphics();
         const progressBox = game.add.graphics();
-        progressBox.fillStyle(0xffbf00, 0.8);
+        progressBox.fillStyle(0xfcc700, 0.8);
         progressBox.fillRect(300, 350, 320, 50);
         
         const width = game.cameras.main.width;

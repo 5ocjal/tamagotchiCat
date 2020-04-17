@@ -1,24 +1,35 @@
+import { ItemsCreator } from './../shared/itemsCreator';
 import { LoadingScreen } from '../shared/loading-screen';
-import { Color, CatActivity, CatColor } from '../shared/enums';
+import { Color, CatActivity } from '../shared/enums';
 import { CatService } from '../shared/catService';
 import { AnimationsCreator } from '../shared/animationsCreator';
+import { GuiCreator } from '../shared/guiCreator';
 
 export class RoomScene extends Phaser.Scene {
   catService = new CatService();
   loadingScreen = new LoadingScreen();
   animService = new AnimationsCreator();
+  guiCreator = new GuiCreator();
+  itemsCreator = new ItemsCreator();
 
   catState = this.catService.loadCatState();
   roomDay;
   roomNight;
+  floor;
   cat;
   mouse;
   ball;
   shit;
-  dialog;
-  dialogIcon;
+
   isDay = true;
   dayCycle = 30;
+
+  panel;
+  statusBar;
+  catIcon;
+  dialog;
+  dialogIcon;
+  iconHolder;
   timerRun = false;
   timer;
   clock = 0;
@@ -44,7 +55,14 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('floor', '../../assets/room/ground.png');
 
     this.load.image('panel', '../../assets/gui/panel.png');
+    this.load.image('statusBar', '../../assets/gui/statusBar.png');
+    this.load.image(
+      'catIcon',
+      '../../assets/gui/icons/cat/' + this.catState.color + '/catIcon.png'
+    );
+    this.load.image('action', '../../assets/gui/iconHolder.png');
     this.load.image('energy', '../assets/gui/icons/energy.png');
+
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
     this.load.image('shit', '../../assets/items/shit.png');
@@ -77,49 +95,28 @@ export class RoomScene extends Phaser.Scene {
   }
 
   create() {
-
     this.physics.world.setBounds(-550, 0, 2000, 700);
-    this.time.addEvent({delay: 1000, callback: this.updateTimer, callbackScope: this, repeat: -1})
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.updateTimer,
+      callbackScope: this,
+      repeat: -1,
+    });
 
-    this.roomDay = this.add.image(450, 300, 'roomDay').setDepth(-1).setVisible(true);
+    this.roomDay = this.add.image(450, 250, 'roomDay').setDepth(-1).setVisible(true);
     this.roomNight = this.add.image(450, 300, 'roomNight').setDepth(-1).setVisible(false);
-    let panel = this.add
-      .image(450, 20, 'panel')
-      .setOrigin(0.5, 0)
-      .setDisplaySize(600, 200)
-      .setScrollFactor(0)
-      .setAlpha(0.9);
 
     this.timer = this.add.text(50, 40, '', { fontSize: '20px' }).setScrollFactor(0);
     this.add.text(50, 20, 'Time: ', { fontSize: '20px' }).setScrollFactor(0);
-    this.add
-      .text(panel.x, panel.y + 25, this.catState.name, {
-        fontFamily: 'Indie Flower',
-        fontSize: '40px',
-        fill: Color.RED,
-      })
-      .setOrigin(0.5, 0)
-      .setScrollFactor(0);
 
-    this.add
-      .image(panel.x / 2 + 10, panel.y + 100, 'energy')
-      .setScale(0.2)
-      .setScrollFactor(0)
-    this.energy = this.add
-      .text(panel.x / 2 + 30, panel.y + 87, '', {
-        fontSize: '25px',
-        fill: Color.RED,
-      })
-      .setScrollFactor(0);
-
-    let floor = this.physics.add.staticGroup();
-    floor.create(450, 660, 'floor').setSize(2100, 50).setVisible(false);
+    this.floor = this.physics.add.staticGroup();
+    this.floor.create(450, 660, 'floor').setSize(2100, 50).setVisible(false);
 
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
     this.cat = this.physics.add.sprite(350, 570, 'idle');
-    this.shit = this.physics.add.sprite(this.cat.x + 40, 615, 'shit').setDisplaySize(40, 40).setDepth(0);
-    this.mouse = this.physics.add.sprite(-450, 570, 'mouseRun').setScale(0.1);
+
+    this.isDay === false ? this.itemsCreator.createMouse(this) : null;
 
     this.ball
       .setVelocity(-300, 300)
@@ -138,53 +135,27 @@ export class RoomScene extends Phaser.Scene {
       .setDrag(10)
       .play('idle');
 
-    this.dialog = this.add
-      .image(this.cat.x + 15, this.cat.y - 150, 'dialog')
-      .setScale(0.4)
-      .setAlpha(0.8)
-      .setVisible(false);
+    this.guiCreator.createGui(this);
 
-    this.dialogIcon = this.physics.add
-      .staticImage(0, 0, 'mouseIcon')
-      .setScale(0.08)
-      .refreshBody()
-      .setVisible(false);
-
-    this.physics.add.collider(floor, [this.cat, this.mouse, this.ball, this.shit]);
+    this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
     this.physics.add.collider(this.ball, [this.cat]);
-    this.physics.add.collider(this.mouse, [this.ball]);
-    this.physics.add.overlap(this.cat, this.mouse, () => {
-      this.showDialog('mouse');
-    });
 
+    this.cameras.main.fadeIn(4000, 0, 109, 143);
     this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230).shakeEffect;
 
     this.catMonitor();
     this.catAttitude();
-    this.mouseRun();
   }
 
   update() {
-    this.energy.setText(this.catState.energy.toString());
-
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
 
-    this.timerRun
-      ? this.timer.setText(this.clock.toString())
-      : this.timer.setText('No time');
-
-    this.dialog.x = this.cat.x + 15;
-    this.dialog.y = this.cat.y - 150;
-    if (this.dialog.visible === true) {
-      this.dialogIcon.x = this.dialog.x / 2 + 150;
-      this.dialogIcon.y = this.dialog.y - 15;
-    }
+    this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
 
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
-    this.mouse.active === true && this.mouse.x === 1400 ? this.mouse.destroy() : null;
   }
 
   catAttitude() {
@@ -216,6 +187,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
       this.cat.setVelocity(0);
+      this.itemsCreator.createShit(this);
 
       setTimeout(() => {
         this.inAction = false;
@@ -308,21 +280,18 @@ export class RoomScene extends Phaser.Scene {
     setInterval(() => {
       switch (this.catState.activity) {
         case 'walk':
-          console.log('lazi');
           if (this.catState.energy > 0) {
             this.catState.energy = this.catState.energy - 1;
           }
           break;
 
         case 'run':
-          console.log('biega');
           if (this.catState.energy > 0) {
             this.catState.energy = this.catState.energy - 2;
           }
           break;
 
         case 'idle':
-          console.log('siedzi');
           if (this.catState.energy < 100) {
             this.catState.energy = this.catState.energy + 3;
           }
@@ -351,12 +320,6 @@ export class RoomScene extends Phaser.Scene {
     }
   }
 
-  mouseRun() {
-    if(!this.isDay){
-      this.mouse.play('mouseRun').setVelocityX(220);
-    }
-  }
-
   showDialog(info) {
     this.dialog.setVisible(true);
 
@@ -372,31 +335,30 @@ export class RoomScene extends Phaser.Scene {
     }
   }
 
-  dayNightChanger(){
-
-    console.log('Day/Night', this.isDay)
+  dayNightChanger() {
+    console.log('Day/Night', this.isDay);
     this.isDay = !this.isDay;
-    console.log('isDay', this.isDay)
+    console.log('isDay', this.isDay);
 
-    if(this.isDay){
+    if (this.isDay) {
+      this.mouse.destroy();
       this.dayCycle = 30;
       this.roomDay.setVisible(true);
       this.roomNight.setVisible(false);
       this.cat.setTint();
-    }else{
+    } else {
       this.dayCycle = 10;
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);
-      this.cat.setTint(Color.NIGHTTINT)
-      this.mouseRun();
+      this.cat.setTint(Color.NIGHTTINT);
+      this.itemsCreator.createMouse(this);
     }
-
   }
 
-  updateTimer(){
-    if(this.clock < this.dayCycle ){
+  updateTimer() {
+    if (this.clock < this.dayCycle) {
       this.clock++;
-    }else{
+    } else {
       this.dayNightChanger();
       this.clock = 0;
     }

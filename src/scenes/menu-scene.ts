@@ -45,9 +45,8 @@ export class MenuScene extends Phaser.Scene {
       .text(buttonSprite.x - 20, buttonSprite.y - 15, 'Start', {
         fontFamily: 'Roboto',
         fontSize: '25px',
-        fill: Color.WHITE,
+        fill: Color.BLUE,
       })
-      .setShadow(2, 2, '#232323', 3)
       .setInteractive();
 
     buttonText.on('pointerdown', () => {
