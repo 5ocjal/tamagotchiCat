@@ -142,7 +142,7 @@ export class RoomScene extends Phaser.Scene {
     this.physics.add.collider(this.ball, [this.cat]);
 
     this.cameras.main.fadeIn(4000, 0, 109, 143);
-    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230).shakeEffect;
+    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
 
     this.catMonitor();
     this.catAttitude();
