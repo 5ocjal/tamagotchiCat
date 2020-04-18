@@ -1,3 +1,5 @@
+import { Color } from "./enums";
+
 export class GuiCreator {
   item;
 
@@ -51,7 +53,8 @@ export class GuiCreator {
       .setDisplaySize(600, 200)
       .setDepth(5)
       .setAlpha(0.9)
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setVisible(false);
 
     this.item.eatIcon = this.item.physics.add
       .staticSprite(this.item.panel.x + 340, this.item.panel.y - 60, 'eatIcon')
@@ -94,5 +97,11 @@ export class GuiCreator {
       .staticSprite(925, 690, 'statusBar')
       .setScale(0.4)
       .setScrollFactor(0);
+
+    this.item.nameTitle = this.item.add.text(this.item.nameBox.x -240, this.item.nameBox.y -60, this.item.catState.name, {
+      fontFamily: 'Indie Flower',
+      fontSize: '65px',
+      fill: Color.BLUE,
+    }).setScrollFactor(0).setOrigin(0,0);
   }
 }

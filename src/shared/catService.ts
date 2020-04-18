@@ -1,7 +1,7 @@
 import { CatColor, CatHealth, CatActivity, CatDirection } from './enums';
 export class CatService {
          cat = {
-           name: 'Rudek',
+           name: 'Klakier',
            color: CatColor.ORANGE,
            activity: CatActivity.RUN,
            happiness: 100,

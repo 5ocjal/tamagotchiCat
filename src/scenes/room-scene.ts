@@ -26,12 +26,17 @@ export class RoomScene extends Phaser.Scene {
 
   panel;
   statusBar;
+  nameTitle;
   nameBox;
   catIcon;
   dialog;
   dialogIcon;
   iconHolder;
 
+  health;
+  eat;
+  water;
+  fun;
   eatIcon;
   waterIcon;
   ballonIcon;
@@ -78,6 +83,10 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('bubbleIcon', '../../assets/gui/icons/bubble.png');
     this.load.image('showerIcon', '../../assets/gui/icons/shower.png');
     this.load.image('doorIcon', '../../assets/gui/icons/door.png');
+    this.load.image('health', '../../assets/gui/health.png');
+    this.load.image('eat', '../../assets/gui/eat.png');
+    this.load.image('water', '../../assets/gui/water.png');
+    this.load.image('fun', '../../assets/gui/fun.png');
 
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
@@ -125,9 +134,7 @@ export class RoomScene extends Phaser.Scene {
     this.add.text(50, 20, 'Time: ', { fontSize: '20px' }).setScrollFactor(0);
 
     this.floor = this.physics.add.staticGroup();
-    this.floor.create(450, 610, 'floor')
-    .setSize(2100, 50)
-    .setVisible(false);
+    this.floor.create(450, 610, 'floor').setSize(2100, 50).setVisible(false);
 
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
@@ -154,6 +161,34 @@ export class RoomScene extends Phaser.Scene {
 
     this.guiCreator.createGui();
 
+    this.health = this.physics.add
+      .staticSprite(20, 40, 'health')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.eat = this.physics.add
+      .staticSprite(240, 40, 'eat')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.water = this.physics.add
+      .staticSprite(460, 40, 'water')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.fun = this.physics.add
+      .staticSprite(680, 40, 'fun')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
     this.physics.add.collider(this.ball, [this.cat]);
@@ -171,6 +206,8 @@ export class RoomScene extends Phaser.Scene {
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
     this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
+
+    this.shit !== undefined ? this.showDialog('shit') : null;
 
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
   }
@@ -340,9 +377,18 @@ export class RoomScene extends Phaser.Scene {
     this.dialog.setVisible(true);
 
     if (info === 'mouse') {
+      this.dialogIcon.setTexture('mouseIcon').setVisible(true).setScale(0.08);
       this.cat.play('run');
       this.cat.setVelocityY(-100);
-      this.dialogIcon.setVisible(true);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 1000);
+    }
+
+    if (info === 'shit') {
+      this.dialogIcon.setTexture('shit').setVisible(true).setDisplaySize(40, 40);
 
       setTimeout(() => {
         this.dialogIcon.setVisible(false);
