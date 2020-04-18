@@ -30,6 +30,14 @@ export class RoomScene extends Phaser.Scene {
   dialog;
   dialogIcon;
   iconHolder;
+
+  eatIcon;
+  waterIcon;
+  ballonIcon;
+  bubbleIcon;
+  showerIcon;
+  doorIcon;
+
   timerRun = false;
   timer;
   clock = 0;
@@ -50,7 +58,7 @@ export class RoomScene extends Phaser.Scene {
 
   preload() {
     this.loadingScreen.showLoadingProgress(this);
-    this.load.image('roomDay', '../../assets/room/roomDayB.jpg');
+    this.load.image('roomDay', '../../assets/room/roomB.jpg');
     this.load.image('roomNight', '../../assets/room/roomNightB.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
 
@@ -60,14 +68,20 @@ export class RoomScene extends Phaser.Scene {
       'catIcon',
       '../../assets/gui/icons/cat/' + this.catState.color + '/catIcon.png'
     );
+
+    this.load.image('mouseIcon', '../../assets/gui/icons/mouse.png');
     this.load.image('action', '../../assets/gui/iconHolder.png');
-    this.load.image('energy', '../assets/gui/icons/energy.png');
+    this.load.image('eatIcon', '../../assets/gui/icons/fish.png');
+    this.load.image('waterIcon', '../../assets/gui/icons/water.png');
+    this.load.image('ballonIcon', '../../assets/gui/icons/ballon.png');
+    this.load.image('bubbleIcon', '../../assets/gui/icons/bubble.png');
+    this.load.image('showerIcon', '../../assets/gui/icons/shower.png');
+    this.load.image('doorIcon', '../../assets/gui/icons/door.png');
 
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
     this.load.image('shit', '../../assets/items/shit.png');
     this.load.image('dialog', '../../assets/gui/dialog.png');
-    this.load.image('mouseIcon', '../../assets/gui/icons/mouse.png');
 
     this.load.spritesheet('walk', '../../assets/cat/' + this.catState.color + '/walk.png', {
       frameWidth: 1082,
@@ -140,9 +154,46 @@ export class RoomScene extends Phaser.Scene {
     this.statusBar = this.physics.add
       .staticSprite(450, 30, 'statusBar')
       .setOrigin(0.5, 0)
-      .setScale(0.4)
+      .setDisplaySize(600, 200)
       .setDepth(5)
       .setAlpha(0.9)
+      .setScrollFactor(0);
+
+    this.eatIcon = this.physics.add
+      .staticSprite(this.panel.x + 340, this.panel.y - 60, 'eatIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.waterIcon = this.physics.add
+      .staticSprite(this.panel.x + 408, this.panel.y - 60, 'waterIcon')
+      .setRotation(12)
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.ballonIcon = this.physics.add
+      .staticSprite(this.panel.x + 490, this.panel.y - 60, 'ballonIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.bubbleIcon = this.physics.add
+      .staticSprite(this.panel.x + 555, this.panel.y - 60, 'bubbleIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.showerIcon = this.physics.add
+      .staticSprite(this.panel.x + 622, this.panel.y - 60, 'showerIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.doorIcon = this.physics.add
+      .staticSprite(this.panel.x + 695, this.panel.y - 60, 'doorIcon')
+      .setDepth(10)
+      .setScale(0.1)
       .setScrollFactor(0);
 
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
@@ -168,7 +219,6 @@ export class RoomScene extends Phaser.Scene {
 
   catAttitude() {
     this.ball.destroy();
-    console.log('Cat is alive');
 
     let takeAction: number = 0;
 
@@ -339,7 +389,7 @@ export class RoomScene extends Phaser.Scene {
       setTimeout(() => {
         this.dialogIcon.setVisible(false);
         this.dialog.setVisible(false);
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -348,7 +398,7 @@ export class RoomScene extends Phaser.Scene {
     const setMouse = [3, 5, 7];
 
     if (this.isDay) {
-      if(this.mouse !== undefined){
+      if (this.mouse !== undefined) {
         this.mouse.destroy();
       }
       this.dayCycle = 30;
@@ -356,7 +406,6 @@ export class RoomScene extends Phaser.Scene {
       this.roomNight.setVisible(false);
       this.cat.setTint();
     } else {
-      console.log(this.cat, this.mouse);
       this.dayCycle = 10;
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);

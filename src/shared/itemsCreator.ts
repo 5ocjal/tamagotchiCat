@@ -8,7 +8,7 @@ export class ItemsCreator {
   }
 
   createMouse() {
-    this.item.mouse = this.item.physics.add.sprite(-250, 450, 'mouseRun').setScale(0.1);
+    this.item.mouse = this.item.physics.add.sprite(-350, 600, 'mouseRun').setScale(0.1);
     this.item.physics.add.collider(this.item.mouse, this.item.floor);
     this.item.physics.add.overlap(this.item.cat, this.item.mouse, () => {
       this.item.showDialog('mouse');
@@ -23,5 +23,9 @@ export class ItemsCreator {
       .setDisplaySize(40, 40)
       .setDepth(0);
     this.item.physics.add.collider(this.item.shit, this.item.floor);
+  }
+
+  cleanShit(){
+    console.log('sprzatnij')
   }
 }
