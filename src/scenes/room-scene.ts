@@ -26,6 +26,7 @@ export class RoomScene extends Phaser.Scene {
 
   panel;
   statusBar;
+  nameBox;
   catIcon;
   dialog;
   dialogIcon;
@@ -117,18 +118,20 @@ export class RoomScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.roomDay = this.add.image(450, 250, 'roomDay').setDepth(-1).setVisible(true);
-    this.roomNight = this.add.image(450, 300, 'roomNight').setDepth(-1).setVisible(false);
+    this.roomDay = this.add.image(450, 195, 'roomDay').setDepth(-1).setVisible(true);
+    this.roomNight = this.add.image(450, 195, 'roomNight').setDepth(-1).setVisible(false);
 
     this.timer = this.add.text(50, 40, '', { fontSize: '20px' }).setScrollFactor(0);
     this.add.text(50, 20, 'Time: ', { fontSize: '20px' }).setScrollFactor(0);
 
     this.floor = this.physics.add.staticGroup();
-    this.floor.create(450, 660, 'floor').setSize(2100, 50).setVisible(false);
+    this.floor.create(450, 610, 'floor')
+    .setSize(2100, 50)
+    .setVisible(false);
 
     this.animService.createCatAnimations(this);
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
-    this.cat = this.physics.add.sprite(350, 570, 'idle');
+    this.cat = this.physics.add.sprite(350, 470, 'idle');
 
     this.isDay === false ? this.itemsCreator.createMouse() : null;
 
@@ -151,57 +154,12 @@ export class RoomScene extends Phaser.Scene {
 
     this.guiCreator.createGui();
 
-    this.statusBar = this.physics.add
-      .staticSprite(450, 30, 'statusBar')
-      .setOrigin(0.5, 0)
-      .setDisplaySize(600, 200)
-      .setDepth(5)
-      .setAlpha(0.9)
-      .setScrollFactor(0);
-
-    this.eatIcon = this.physics.add
-      .staticSprite(this.panel.x + 340, this.panel.y - 60, 'eatIcon')
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
-    this.waterIcon = this.physics.add
-      .staticSprite(this.panel.x + 408, this.panel.y - 60, 'waterIcon')
-      .setRotation(12)
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
-    this.ballonIcon = this.physics.add
-      .staticSprite(this.panel.x + 490, this.panel.y - 60, 'ballonIcon')
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
-    this.bubbleIcon = this.physics.add
-      .staticSprite(this.panel.x + 555, this.panel.y - 60, 'bubbleIcon')
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
-    this.showerIcon = this.physics.add
-      .staticSprite(this.panel.x + 622, this.panel.y - 60, 'showerIcon')
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
-    this.doorIcon = this.physics.add
-      .staticSprite(this.panel.x + 695, this.panel.y - 60, 'doorIcon')
-      .setDepth(10)
-      .setScale(0.1)
-      .setScrollFactor(0);
-
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
     this.physics.add.collider(this.ball, [this.cat]);
 
     this.cameras.main.fadeIn(4000, 0, 109, 143);
-    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
+    this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
     this.catMonitor();
     this.catAttitude();
@@ -210,7 +168,7 @@ export class RoomScene extends Phaser.Scene {
   update() {
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
-      : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 230);
+      : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
     this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
 

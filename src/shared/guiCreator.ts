@@ -1,18 +1,16 @@
 export class GuiCreator {
+  item;
 
-    item;
+  constructor(item) {
+    this.item = item;
+  }
 
-    constructor(item){
-        this.item = item;
-    }
-    
   createGui() {
     this.item.panel = this.item.add
       .sprite(-100, 710, 'panel')
       .setOrigin(0, 0.5)
       .setScale(0.22)
       .setDepth(5)
-      .setAlpha(0.9)
       .setScrollFactor(0);
 
     this.item.catIcon = this.item.add
@@ -46,5 +44,55 @@ export class GuiCreator {
         .setScale(0.1)
         .setScrollFactor(0);
     }
+
+    this.item.statusBar = this.item.physics.add
+      .staticSprite(450, 30, 'statusBar')
+      .setOrigin(0.5, 0)
+      .setDisplaySize(600, 200)
+      .setDepth(5)
+      .setAlpha(0.9)
+      .setScrollFactor(0);
+
+    this.item.eatIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 340, this.item.panel.y - 60, 'eatIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.waterIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 408, this.item.panel.y - 60, 'waterIcon')
+      .setRotation(12)
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.ballonIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 485, this.item.panel.y - 60, 'ballonIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.bubbleIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 560, this.item.panel.y - 60, 'bubbleIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.showerIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 625, this.item.panel.y - 60, 'showerIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.doorIcon = this.item.physics.add
+      .staticSprite(this.item.panel.x + 695, this.item.panel.y - 60, 'doorIcon')
+      .setDepth(10)
+      .setScale(0.1)
+      .setScrollFactor(0);
+
+    this.item.nameBox = this.item.physics.add
+      .staticSprite(925, 690, 'statusBar')
+      .setScale(0.4)
+      .setScrollFactor(0);
   }
 }
