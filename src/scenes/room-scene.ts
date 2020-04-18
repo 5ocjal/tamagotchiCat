@@ -9,8 +9,8 @@ export class RoomScene extends Phaser.Scene {
   catService = new CatService();
   loadingScreen = new LoadingScreen();
   animService = new AnimationsCreator();
-  guiCreator = new GuiCreator();
-  itemsCreator = new ItemsCreator();
+  guiCreator = new GuiCreator(this);
+  itemsCreator = new ItemsCreator(this);
 
   catState = this.catService.loadCatState();
   roomDay;
@@ -116,7 +116,7 @@ export class RoomScene extends Phaser.Scene {
     this.ball = this.physics.add.sprite(850, 420, 'tennisball');
     this.cat = this.physics.add.sprite(350, 570, 'idle');
 
-    this.isDay === false ? this.itemsCreator.createMouse(this) : null;
+    this.isDay === false ? this.itemsCreator.createMouse() : null;
 
     this.ball
       .setVelocity(-300, 300)
@@ -135,7 +135,15 @@ export class RoomScene extends Phaser.Scene {
       .setDrag(10)
       .play('idle');
 
-    this.guiCreator.createGui(this);
+    this.guiCreator.createGui();
+
+    this.statusBar = this.physics.add
+      .staticSprite(450, 30, 'statusBar')
+      .setOrigin(0.5, 0)
+      .setScale(0.4)
+      .setDepth(5)
+      .setAlpha(0.9)
+      .setScrollFactor(0);
 
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
@@ -336,22 +344,27 @@ export class RoomScene extends Phaser.Scene {
   }
 
   dayNightChanger() {
-    console.log('Day/Night', this.isDay);
     this.isDay = !this.isDay;
-    console.log('isDay', this.isDay);
+    const setMouse = [3, 5, 7];
 
     if (this.isDay) {
-      this.mouse.destroy();
+      if(this.mouse !== undefined){
+        this.mouse.destroy();
+      }
       this.dayCycle = 30;
       this.roomDay.setVisible(true);
       this.roomNight.setVisible(false);
       this.cat.setTint();
     } else {
+      console.log(this.cat, this.mouse);
       this.dayCycle = 10;
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);
       this.cat.setTint(Color.NIGHTTINT);
-      this.itemsCreator.createMouse(this);
+
+      if (setMouse.includes(Phaser.Math.Between(1, 10))) {
+        this.itemsCreator.createMouse();
+      }
     }
   }
 
