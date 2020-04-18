@@ -1,4 +1,4 @@
-import { Color } from "./enums";
+import { Color } from './enums';
 
 export class GuiCreator {
   item;
@@ -48,13 +48,13 @@ export class GuiCreator {
     }
 
     this.item.statusBar = this.item.physics.add
-      .staticSprite(450, 30, 'statusBar')
+      .staticSprite(450, -20, 'statusBar')
       .setOrigin(0.5, 0)
-      .setDisplaySize(600, 200)
+      .setDisplaySize(1200, 65)
       .setDepth(5)
       .setAlpha(0.9)
       .setScrollFactor(0)
-      .setVisible(false);
+      .setVisible(true);
 
     this.item.eatIcon = this.item.physics.add
       .staticSprite(this.item.panel.x + 340, this.item.panel.y - 60, 'eatIcon')
@@ -98,10 +98,41 @@ export class GuiCreator {
       .setScale(0.4)
       .setScrollFactor(0);
 
-    this.item.nameTitle = this.item.add.text(this.item.nameBox.x -240, this.item.nameBox.y -60, this.item.catState.name, {
-      fontFamily: 'Indie Flower',
-      fontSize: '65px',
-      fill: Color.BLUE,
-    }).setScrollFactor(0).setOrigin(0,0);
+    this.item.nameTitle = this.item.add
+      .text(this.item.nameBox.x - 240, this.item.nameBox.y - 60, this.item.catState.name, {
+        fontFamily: 'Indie Flower',
+        fontSize: '65px',
+        fill: Color.BLUE,
+      })
+      .setScrollFactor(0)
+      .setOrigin(0, 0);
+
+    this.item.health = this.item.physics.add
+      .staticSprite(20, 20, 'health')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.item.eat = this.item.physics.add
+      .staticSprite(240, 20, 'eat')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.item.water = this.item.physics.add
+      .staticSprite(460, 20, 'water')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
+
+    this.item.fun = this.item.physics.add
+      .staticSprite(680, 20, 'fun')
+      .setOrigin(0, 0)
+      .setScale(0.12)
+      .setDepth(10)
+      .setScrollFactor(0);
   }
 }

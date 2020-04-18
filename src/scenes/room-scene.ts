@@ -161,34 +161,6 @@ export class RoomScene extends Phaser.Scene {
 
     this.guiCreator.createGui();
 
-    this.health = this.physics.add
-      .staticSprite(20, 40, 'health')
-      .setOrigin(0, 0)
-      .setScale(0.12)
-      .setDepth(10)
-      .setScrollFactor(0);
-
-    this.eat = this.physics.add
-      .staticSprite(240, 40, 'eat')
-      .setOrigin(0, 0)
-      .setScale(0.12)
-      .setDepth(10)
-      .setScrollFactor(0);
-
-    this.water = this.physics.add
-      .staticSprite(460, 40, 'water')
-      .setOrigin(0, 0)
-      .setScale(0.12)
-      .setDepth(10)
-      .setScrollFactor(0);
-
-    this.fun = this.physics.add
-      .staticSprite(680, 40, 'fun')
-      .setOrigin(0, 0)
-      .setScale(0.12)
-      .setDepth(10)
-      .setScrollFactor(0);
-
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
     this.physics.add.collider(this.ball, [this.cat]);
