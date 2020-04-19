@@ -38,7 +38,7 @@ export class MenuScene extends Phaser.Scene {
     const buttonSprite = this.add.sprite(290, 560, 'button').setDisplaySize(200, 50).setFrame('6').setInteractive();
 
     buttonSprite.on('pointerdown', () => {
-      this.startGame();
+      this.scene.start('RoomScene');
     });
 
     const buttonText = this.add
@@ -50,15 +50,10 @@ export class MenuScene extends Phaser.Scene {
       .setInteractive();
 
     buttonText.on('pointerdown', () => {
-      this.startGame();
+      this.scene.start('RoomScene');
     });
 
     this.add.sprite(650, 400, 'catLogo').setScale(.8);
   }
 
-  update(): void {}
-
-  startGame() {;
-    this.scene.start('RoomScene');
-  }
 }

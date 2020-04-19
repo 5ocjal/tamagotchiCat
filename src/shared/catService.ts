@@ -8,6 +8,7 @@ export class CatService {
            hunger: 100,
            thirst: 100,
            energy: 100,
+           scared: false,
            health: CatHealth.FIT,
          };
 
