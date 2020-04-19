@@ -4,7 +4,6 @@ import { Color, CatActivity } from '../shared/enums';
 import { CatService } from '../shared/catService';
 import { AnimationsCreator } from '../shared/animationsCreator';
 import { GuiCreator } from '../shared/guiCreator';
-import { Dialog } from '../shared/dialog';
 
 export class RoomScene extends Phaser.Scene {
   catService = new CatService();
@@ -12,7 +11,6 @@ export class RoomScene extends Phaser.Scene {
   animService = new AnimationsCreator();
   guiCreator = new GuiCreator(this);
   itemsCreator = new ItemsCreator(this);
-  dialogInfo = new Dialog(this);
 
   catState = this.catService.loadCatState();
   roomDay;
@@ -57,6 +55,7 @@ export class RoomScene extends Phaser.Scene {
   bubbleIcon;
   showerIcon;
   doorIcon;
+  needClean = false;
 
   timerRun = false;
   timer;
@@ -177,7 +176,7 @@ export class RoomScene extends Phaser.Scene {
       .setScale(0.14, 0.14)
       .setDrag(10)
       .setInteractive()
-      .on('pointerover', () => this.dialogInfo.showDialog('happy'))
+      .on('pointerover', () => this.showDialog('happy'))
       .play('idle');
 
     this.guiCreator.createGui();
@@ -192,7 +191,7 @@ export class RoomScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
     this.catMonitor();
-    this.happinessMonitor;
+    this.happinessMonitor();
     this.catAttitude();
   }
 
@@ -203,14 +202,20 @@ export class RoomScene extends Phaser.Scene {
 
     this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
 
-    this.healthNo.setText(this.catState.energy.toString());
-    this.eatNo.setText(this.catState.hunger.toString());
-    this.waterNo.setText(this.catState.thirst.toString());
-    this.funNo.setText(this.catState.happiness.toString());
+    this.healthNo.setText(this.catState.energy.toFixed(0).toString());
+    this.eatNo.setText(this.catState.hunger.toFixed(0).toString());
+    this.waterNo.setText(this.catState.thirst.toFixed(0).toString());
+    this.funNo.setText(this.catState.happiness.toFixed(0).toString());
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
-    this.catState.hunger < 20 ? this.dialogInfo.showDialog('eat') : null;
-    this.catState.thirst < 20 ? this.dialogInfo.showDialog('water') : null;
-    this.catState.happiness < 20 ? this.dialogInfo.showDialog('sad') : null;
+    this.catState.hunger < 20 ? this.showDialog('eat') : null;
+    this.catState.thirst < 20 ? this.showDialog('water') : null;
+    this.catState.happiness < 20 ? this.showDialog('sad') : null;
+
+    this.shit !== undefined && this.shit.active ? this.showDialog('shit') : null;
+
+    this.physics.add.overlap(this.cat, this.mouse, () => {
+      this.showDialog('mouse');
+    });
   }
 
   catAttitude() {
@@ -335,7 +340,7 @@ export class RoomScene extends Phaser.Scene {
       switch (this.catState.activity) {
         case 'walk':
           if (this.catState.energy > 0) {
-            this.catState.energy = this.catState.energy - 1;
+            this.catState.energy = this.catState.energy  - 1;
             this.catState.hunger = this.catState.hunger - 0.5;
             this.catState.thirst = this.catState.thirst - 1.5;
           }
@@ -346,6 +351,7 @@ export class RoomScene extends Phaser.Scene {
             this.catState.energy = this.catState.energy - 2;
             this.catState.hunger = this.catState.hunger - 1;
             this.catState.thirst = this.catState.thirst - 2;
+            this.catState.happiness = this.catState.happiness + 0.5;
           }
           break;
 
@@ -354,6 +360,7 @@ export class RoomScene extends Phaser.Scene {
             this.catState.energy = this.catState.energy + 3;
             this.catState.hunger = this.catState.hunger - 0.5;
             this.catState.thirst = this.catState.thirst - 1;
+            this.catState.happiness = this.catState.happiness - .5;
           }
           break;
 
@@ -367,8 +374,11 @@ export class RoomScene extends Phaser.Scene {
       }
 
       if (this.shit !== undefined && this.shit.active) {
+        this.catState.happiness = this.catState.happiness - 7;
+      }
+
+      if (this.shit !== undefined && this.shit.active) {
         this.shit.on('pointerdown', () => this.cleanShit());
-        this.dialogInfo.showDialog('shit');
       }
     }, 1000);
   }
@@ -399,11 +409,13 @@ export class RoomScene extends Phaser.Scene {
     }
   }
 
-
   cleanShit() {
     console.log('oh shit');
     this.shit.destroy();
-    this.catState.happiness += 40;
+    if(this.needClean){
+      this.catState.happiness = this.catState.happiness + 40;
+    }
+    this.needClean = false;
   }
 
   dayNightChanger() {
@@ -436,6 +448,75 @@ export class RoomScene extends Phaser.Scene {
     } else {
       this.dayNightChanger();
       this.clock = 0;
+    }
+  }
+
+  showDialog(info) {
+    this.dialog.setVisible(true);
+
+    if (info === 'mouse') {
+      this.dialogIcon.setTexture('mouseIcon').setVisible(true).setScale(0.08);
+      this.cat.play('run');
+      this.cat.setVelocityY(-100);
+      this.catState.scared = true;
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 1000);
+    }
+
+    if (info === 'shit') {
+      if (this.shit.active) {
+        this.dialogIcon.setTexture('shit').setVisible(true).setDisplaySize(40, 40);
+
+        setTimeout(() => {
+          this.dialogIcon.setVisible(false);
+          this.dialog.setVisible(false);
+        }, 1000);
+      } else {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }
+    }
+
+    if (info === 'happy') {
+      this.dialogIcon.setTexture('happyEmo').setVisible(true).setScale(0.1);
+      this.cat.play('run');
+      this.cat.setVelocityY(-100);
+      this.catState.happiness += 5;
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 4000);
+    }
+
+    if (info === 'sad') {
+      this.dialogIcon.setTexture('sadEmo').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 4000);
+    }
+
+    if (info === 'eat') {
+      this.dialogIcon.setTexture('eatIcon').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 2000);
+    }
+
+    if (info === 'water') {
+      this.dialogIcon.setTexture('waterIcon').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 2000);
     }
   }
 }

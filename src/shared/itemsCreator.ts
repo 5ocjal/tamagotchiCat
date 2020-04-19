@@ -1,5 +1,4 @@
 import 'phaser';
-
 export class ItemsCreator {
   item;
 
@@ -10,15 +9,12 @@ export class ItemsCreator {
   createMouse() {
     this.item.mouse = this.item.physics.add.sprite(-350, 490, 'mouseRun').setScale(0.1);
     this.item.physics.add.collider(this.item.mouse, this.item.floor);
-    this.item.physics.add.overlap(this.item.cat, this.item.mouse, () => {
-      this.item.showDialog('mouse');
-    });
-
     this.item.mouse.play('mouseRun').setVelocityX(350);
   }
 
   createShit(item) {
     if(this.item.shit === undefined){
+      this.item.needClean = true;
       this.item.shit = this.item.physics.add
       .sprite(this.item.cat.x + 50, 490, 'shit')
       .setDisplaySize(40, 40)
