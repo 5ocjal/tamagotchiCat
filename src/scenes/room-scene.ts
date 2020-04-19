@@ -211,6 +211,15 @@ export class RoomScene extends Phaser.Scene {
     this.catState.thirst < 20 ? this.showDialog('water') : null;
     this.catState.happiness < 20 ? this.showDialog('sad') : null;
 
+    this.catState.energy > 100 ? (this.catState.energy = 100) : null;
+    this.catState.hunger > 100 ? (this.catState.hunger = 100) : null;
+    this.catState.thirst > 100 ? (this.catState.thirst = 100) : null;
+    this.catState.happiness > 100 ? (this.catState.happiness = 100) : null;
+    this.catState.energy <= 0 ? (this.catState.energy = 1) : null;
+    this.catState.hunger <= 0 ? (this.catState.hunger = 1) : null;
+    this.catState.thirst <= 0 ? (this.catState.thirst = 1) : null;
+    this.catState.happiness <= 0 ? (this.catState.happiness = 1) : null;
+
     this.shit !== undefined && this.shit.active ? this.showDialog('shit') : null;
 
     this.physics.add.overlap(this.cat, this.mouse, () => {
@@ -255,32 +264,6 @@ export class RoomScene extends Phaser.Scene {
     }
 
     if (takeAction === 2) {
-      this.cat.play('walk');
-      this.catState.activity = CatActivity.WALK;
-      this.cat.setScale(0.14, 0.14);
-      this.cat.setOffset(0, 0);
-      this.cat.setVelocityX(-90);
-
-      setTimeout(() => {
-        this.inAction = false;
-        this.catAttitude();
-      }, this.getRandom());
-    }
-
-    if (takeAction === 3) {
-      this.cat.play('run');
-      this.catState.activity = CatActivity.RUN;
-      this.cat.setScale(0.14, 0.14);
-      this.cat.setOffset(0, 0);
-      this.cat.setVelocity(-200, -30);
-
-      setTimeout(() => {
-        this.inAction = false;
-        this.catAttitude();
-      }, this.getRandom());
-    }
-
-    if (takeAction === 4) {
       this.cat.play('idle');
       this.catState.activity = CatActivity.IDLE;
       this.cat.setScale(-0.14, 0.14);
@@ -293,12 +276,38 @@ export class RoomScene extends Phaser.Scene {
       }, this.getRandom());
     }
 
-    if (takeAction === 5) {
+    if (takeAction === 3) {
       this.cat.play('stand');
       this.catState.activity = CatActivity.STAND;
       this.cat.setScale(-0.14, 0.14);
       this.cat.setOffset(1100, 0);
       this.cat.setVelocity(0);
+
+      setTimeout(() => {
+        this.inAction = false;
+        this.catAttitude();
+      }, this.getRandom());
+    }
+
+    if (takeAction === 4) {
+      this.cat.play('walk');
+      this.catState.activity = CatActivity.WALK;
+      this.cat.setScale(0.14, 0.14);
+      this.cat.setOffset(0, 0);
+      this.cat.setVelocityX(-90);
+
+      setTimeout(() => {
+        this.inAction = false;
+        this.catAttitude();
+      }, this.getRandom());
+    }
+
+    if (takeAction === 5) {
+      this.cat.play('run');
+      this.catState.activity = CatActivity.RUN;
+      this.cat.setScale(0.14, 0.14);
+      this.cat.setOffset(0, 0);
+      this.cat.setVelocity(-200, -30);
 
       setTimeout(() => {
         this.inAction = false;
@@ -333,52 +342,98 @@ export class RoomScene extends Phaser.Scene {
     }
   }
 
+  pickAction() {
+    if (this.cat.x <= -20) {
+      return Phaser.Math.Between(6, 7);
+    } else if (this.cat.x >= 1000) {
+      return Phaser.Math.Between(4, 5);
+    } else {
+      if (this.catState.energy > 20) {
+        return Phaser.Math.Between(0, 7);
+      } else {
+        return Phaser.Math.Between(0, 3);
+      }
+    }
+  }
+
   catMonitor() {
     this.timerRun = true;
 
     setInterval(() => {
       switch (this.catState.activity) {
         case 'walk':
-          if (this.catState.energy > 0) {
-            this.catState.energy = this.catState.energy  - 1;
-            this.catState.hunger = this.catState.hunger - 0.5;
-            this.catState.thirst = this.catState.thirst - 1.5;
-          }
+          this.catState.energy > 0 && this.catState.energy <= 100
+            ? (this.catState.energy -= 1)
+            : null;
+          this.catState.hunger > 0 && this.catState.hunger <= 100
+            ? (this.catState.hunger -= 0.5)
+            : null;
+          this.catState.thirst > 0 && this.catState.thirst <= 100
+            ? (this.catState.thirst -= 1.5)
+            : null;
           break;
 
         case 'run':
-          if (this.catState.energy > 0) {
-            this.catState.energy = this.catState.energy - 2;
-            this.catState.hunger = this.catState.hunger - 1;
-            this.catState.thirst = this.catState.thirst - 2;
-            this.catState.happiness = this.catState.happiness + 0.5;
-          }
+          this.catState.energy > 0 && this.catState.energy <= 100
+            ? (this.catState.energy -= 2)
+            : null;
+          this.catState.hunger > 0 && this.catState.hunger <= 100
+            ? (this.catState.hunger -= 1)
+            : null;
+          this.catState.thirst > 0 && this.catState.thirst <= 100
+            ? (this.catState.thirst -= 2)
+            : null;
+          this.catState.happiness > 0 && this.catState.happiness < 100
+            ? (this.catState.happiness += 0.5)
+            : null;
           break;
 
         case 'idle':
-          if (this.catState.energy < 100) {
-            this.catState.energy = this.catState.energy + 3;
-            this.catState.hunger = this.catState.hunger - 0.5;
-            this.catState.thirst = this.catState.thirst - 1;
-            this.catState.happiness = this.catState.happiness - .5;
-          }
+          this.catState.energy > 0 && this.catState.energy <= 100
+            ? (this.catState.energy += 3)
+            : null;
+          this.catState.hunger > 0 && this.catState.hunger <= 100
+            ? (this.catState.hunger -= 0.5)
+            : null;
+          this.catState.thirst > 0 && this.catState.thirst <= 100
+            ? (this.catState.thirst -= 1)
+            : null;
+          this.catState.happiness > 0 && this.catState.happiness < 100
+            ? (this.catState.happiness -= 0.5)
+            : null;
+          break;
+
+        case 'stand':
+          this.catState.energy > 0 && this.catState.energy <= 100
+            ? (this.catState.energy += 1)
+            : null;
+          this.catState.hunger > 0 && this.catState.hunger <= 100
+            ? (this.catState.hunger -= 0.5)
+            : null;
+          this.catState.thirst > 0 && this.catState.thirst <= 100
+            ? (this.catState.thirst -= 1)
+            : null;
           break;
 
         case 'sleep':
-          if (this.catState.energy < 100) {
-            this.catState.energy = this.catState.energy + 5;
-            this.catState.hunger = this.catState.hunger - 0.5;
-            this.catState.thirst = this.catState.thirst - 1;
-          }
+          this.catState.energy > 0 && this.catState.energy <= 100
+            ? (this.catState.energy += 5)
+            : null;
+          this.catState.hunger > 0 && this.catState.hunger <= 100
+            ? (this.catState.hunger -= 0.5)
+            : null;
+          this.catState.thirst > 0 && this.catState.thirst <= 100
+            ? (this.catState.thirst -= 0.5)
+            : null;
           break;
       }
 
       if (this.shit !== undefined && this.shit.active) {
-        this.catState.happiness = this.catState.happiness - 7;
+        this.catState.happiness -= 7;
       }
 
       if (this.shit !== undefined && this.shit.active) {
-        this.shit.on('pointerdown', () => this.cleanShit());
+        this.shit.on('pointerover', () => this.cleanShit());
       }
     }, 1000);
   }
@@ -386,11 +441,11 @@ export class RoomScene extends Phaser.Scene {
   happinessMonitor() {
     setInterval(() => {
       if (this.catState.scared) {
-        this.catState.happiness -= 40;
+        this.catState.happiness -= 20;
       }
 
       if (this.shit !== undefined && this.shit.active) {
-        this.catState.happiness = this.catState.happiness - 3;
+        this.catState.happiness -= 3;
       }
     }, 1000);
   }
@@ -399,21 +454,10 @@ export class RoomScene extends Phaser.Scene {
     return Phaser.Math.Between(2000, 7000);
   }
 
-  pickAction() {
-    if (this.cat.x <= -20) {
-      return Phaser.Math.Between(6, 7);
-    } else if (this.cat.x >= 1000) {
-      return Phaser.Math.Between(2, 3);
-    } else {
-      return Phaser.Math.Between(0, 7);
-    }
-  }
-
   cleanShit() {
-    console.log('oh shit');
     this.shit.destroy();
-    if(this.needClean){
-      this.catState.happiness = this.catState.happiness + 40;
+    if (this.needClean) {
+      this.catState.happiness += 40;
     }
     this.needClean = false;
   }
@@ -463,6 +507,7 @@ export class RoomScene extends Phaser.Scene {
       setTimeout(() => {
         this.dialogIcon.setVisible(false);
         this.dialog.setVisible(false);
+        this.catState.scared = false;
       }, 1000);
     }
 
