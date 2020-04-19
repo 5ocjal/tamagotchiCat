@@ -33,10 +33,22 @@ export class RoomScene extends Phaser.Scene {
   dialogIcon;
   iconHolder;
 
-  health;
-  eat;
-  water;
-  fun;
+  healthBar;
+  eatBar;
+  waterBar;
+  funBar;
+  healthNo;
+  eatNo;
+  waterNo;
+  funNo;
+  healthStatusIcon;
+  healthLevel;
+  eatStatusIcon;
+  eatLevel;
+  waterStatusIcon;
+  waterLevel;
+  funStatusIcon;
+  funlevel;
   eatIcon;
   waterIcon;
   ballonIcon;
@@ -50,8 +62,6 @@ export class RoomScene extends Phaser.Scene {
   inAction = false;
   randomEvent: number;
 
-  energy;
-
   constructor() {
     super({
       key: 'RoomScene',
@@ -64,12 +74,13 @@ export class RoomScene extends Phaser.Scene {
 
   preload() {
     this.loadingScreen.showLoadingProgress(this);
+
     this.load.image('roomDay', '../../assets/room/roomB.jpg');
     this.load.image('roomNight', '../../assets/room/roomNightB.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
 
     this.load.image('panel', '../../assets/gui/panel.png');
-    this.load.image('statusBar', '../../assets/gui/statusBar.png');
+    this.load.image('statusBar', '../../assets/gui/status/statusBar.png');
     this.load.image(
       'catIcon',
       '../../assets/gui/icons/cat/' + this.catState.color + '/catIcon.png'
@@ -77,16 +88,24 @@ export class RoomScene extends Phaser.Scene {
 
     this.load.image('mouseIcon', '../../assets/gui/icons/mouse.png');
     this.load.image('action', '../../assets/gui/iconHolder.png');
-    this.load.image('eatIcon', '../../assets/gui/icons/fish.png');
+    this.load.image('healthIcon', '../../assets/gui/icons/heart.png');
+    this.load.image('eatIcon', '../../assets/gui/icons/eat.png');
     this.load.image('waterIcon', '../../assets/gui/icons/water.png');
+    this.load.image('funIcon', '../../assets/gui/icons/tennis.png');
     this.load.image('ballonIcon', '../../assets/gui/icons/ballon.png');
     this.load.image('bubbleIcon', '../../assets/gui/icons/bubble.png');
     this.load.image('showerIcon', '../../assets/gui/icons/shower.png');
     this.load.image('doorIcon', '../../assets/gui/icons/door.png');
-    this.load.image('health', '../../assets/gui/health.png');
-    this.load.image('eat', '../../assets/gui/eat.png');
-    this.load.image('water', '../../assets/gui/water.png');
-    this.load.image('fun', '../../assets/gui/fun.png');
+    this.load.image('healthLevel', '../../assets/gui/status/healthLevel.png');
+    this.load.image('eatLevel', '../../assets/gui/status/eatLevel.png');
+    this.load.image('waterLevel', '../../assets/gui/status/waterLevel.png');
+    this.load.image('funLevel', '../../assets/gui/status/funLevel.png');
+    this.load.image('healthBar', '../../assets/gui/status/health.png');
+    this.load.image('eatBar', '../../assets/gui/status/eat.png');
+    this.load.image('waterBar', '../../assets/gui/status/water.png');
+    this.load.image('funBar', '../../assets/gui/status/fun.png');
+
+    this.load.image('happyEmo', '../../assets/gui/icons/emotions/happy.png');
 
     this.load.image('baseball', '../../assets/items/base-ball.png');
     this.load.image('tennisball', '../../assets/items/tennis-ball.png');
@@ -130,9 +149,6 @@ export class RoomScene extends Phaser.Scene {
     this.roomDay = this.add.image(450, 195, 'roomDay').setDepth(-1).setVisible(true);
     this.roomNight = this.add.image(450, 195, 'roomNight').setDepth(-1).setVisible(false);
 
-    this.timer = this.add.text(50, 40, '', { fontSize: '20px' }).setScrollFactor(0);
-    this.add.text(50, 20, 'Time: ', { fontSize: '20px' }).setScrollFactor(0);
-
     this.floor = this.physics.add.staticGroup();
     this.floor.create(450, 610, 'floor').setSize(2100, 50).setVisible(false);
 
@@ -157,9 +173,13 @@ export class RoomScene extends Phaser.Scene {
       .setTint()
       .setScale(0.14, 0.14)
       .setDrag(10)
+      .setInteractive()
+      .on('pointerover', () => this.showDialog('touch'))
       .play('idle');
 
     this.guiCreator.createGui();
+
+    this.timer = this.add.text(10, 10, '', { fontSize: '20px' }).setDepth(15).setScrollFactor(0);
 
     this.physics.add.collider(this.floor, [this.cat, this.ball, this.shit]);
     this.physics.add.collider(this.cat, [this.ball]);
@@ -179,8 +199,15 @@ export class RoomScene extends Phaser.Scene {
 
     this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
 
-    this.shit !== undefined ? this.showDialog('shit') : null;
+    if (this.shit !== undefined && this.shit.active) {
+      this.shit.on('pointerover', () => this.cleanShit());
+      this.showDialog('shit');
+    }
 
+    this.healthNo.setText(this.catState.energy.toString());
+    this.eatNo.setText(this.catState.hunger.toString());
+    this.waterNo.setText(this.catState.thirst.toString());
+    this.funNo.setText(this.catState.happiness.toString());
     this.ball.active === true ? (this.ball.rotation += this.ball.body.velocity.x / 1300) : null;
   }
 
@@ -360,13 +387,34 @@ export class RoomScene extends Phaser.Scene {
     }
 
     if (info === 'shit') {
-      this.dialogIcon.setTexture('shit').setVisible(true).setDisplaySize(40, 40);
+      if (this.shit.active) {
+        this.dialogIcon.setTexture('shit').setVisible(true).setDisplaySize(40, 40);
+
+        setTimeout(() => {
+          this.dialogIcon.setVisible(false);
+          this.dialog.setVisible(false);
+        }, 1000);
+      } else {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }
+    }
+
+    if (info === 'touch') {
+      this.dialogIcon.setTexture('happyEmo').setVisible(true).setScale(0.1);
+      this.cat.play('run');
+      this.cat.setVelocityY(-100);
 
       setTimeout(() => {
         this.dialogIcon.setVisible(false);
         this.dialog.setVisible(false);
-      }, 1000);
+      }, 2000);
     }
+  }
+
+  cleanShit() {
+    console.log('oh shit');
+    this.shit.destroy();
   }
 
   dayNightChanger() {
@@ -380,7 +428,7 @@ export class RoomScene extends Phaser.Scene {
       this.dayCycle = 30;
       this.roomDay.setVisible(true);
       this.roomNight.setVisible(false);
-      this.cat.setTint();
+      this.cat.clearTint();
     } else {
       this.dayCycle = 10;
       this.roomDay.setVisible(false);
