@@ -63,6 +63,7 @@ export class GuiCreator {
       .staticSprite(this.gui.panel.x + 345, this.gui.panel.y - 50, 'eatIcon')
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
     this.gui.waterIcon = this.gui.physics.add
@@ -70,30 +71,35 @@ export class GuiCreator {
       .setRotation(12)
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
-    this.gui.ballonIcon = this.gui.physics.add
-      .staticSprite(this.gui.panel.x + 485, this.gui.panel.y - 60, 'ballonIcon')
+    this.gui.balloonIcon = this.gui.physics.add
+      .staticSprite(this.gui.panel.x + 485, this.gui.panel.y - 60, 'balloonIcon')
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
     this.gui.bubbleIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 560, this.gui.panel.y - 60, 'bubbleIcon')
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
     this.gui.showerIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 625, this.gui.panel.y - 60, 'showerIcon')
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
     this.gui.doorIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 695, this.gui.panel.y - 60, 'doorIcon')
       .setDepth(10)
       .setScale(0.1)
+      .setInteractive()
       .setScrollFactor(0);
 
     this.gui.nameBox = this.gui.physics.add
@@ -166,23 +172,27 @@ export class GuiCreator {
       .setDepth(10)
       .setScrollFactor(0);
 
-    this.gui.healthNo = this.gui.add
-      .text(120, 27, '', this.textConfig)
+    this.gui.healthLevel = this.gui.physics.add
+      .staticSprite(145, 40, 'healthLevel')
+      .setScale(0.1)
       .setDepth(11)
       .setScrollFactor(0);
 
-    this.gui.eatNo = this.gui.add
-      .text(340, 27, '', this.textConfig)
+    this.gui.eatLevel = this.gui.physics.add
+      .staticSprite(365, 40, 'eatLevel')
+      .setScale(0.1)
       .setDepth(11)
       .setScrollFactor(0);
 
-    this.gui.waterNo = this.gui.add
-      .text(560, 27, '', this.textConfig)
+    this.gui.waterLevel = this.gui.physics.add
+      .staticSprite(587, 40, 'waterLevel')
+      .setScale(0.1)
       .setDepth(11)
       .setScrollFactor(0);
 
-    this.gui.funNo = this.gui.add
-      .text(790, 27, '', this.textConfig)
+    this.gui.funLevel = this.gui.physics.add
+      .staticSprite(806, 40, 'funLevel')
+      .setScale(0.1)
       .setDepth(11)
       .setScrollFactor(0);
   }

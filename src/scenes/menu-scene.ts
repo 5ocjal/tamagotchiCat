@@ -19,6 +19,7 @@ export class MenuScene extends Phaser.Scene {
   preload(): void {
     this.load.image('catLogo', '../../assets/catLogo.png');
     this.load.image('button', '../../assets/gui/button.png');
+
   }
 
   create(): void {
@@ -54,6 +55,8 @@ export class MenuScene extends Phaser.Scene {
     });
 
     this.add.sprite(650, 400, 'catLogo').setScale(.8);
+
+
   }
 
 }
