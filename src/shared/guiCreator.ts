@@ -88,8 +88,8 @@ export class GuiCreator {
       .setInteractive()
       .setScrollFactor(0);
 
-    this.gui.showerIcon = this.gui.physics.add
-      .staticSprite(this.gui.panel.x + 625, this.gui.panel.y - 60, 'showerIcon')
+    this.gui.cleanIcon = this.gui.physics.add
+      .staticSprite(this.gui.panel.x + 625, this.gui.panel.y - 58, 'cleanIcon')
       .setDepth(10)
       .setScale(0.1)
       .setInteractive()

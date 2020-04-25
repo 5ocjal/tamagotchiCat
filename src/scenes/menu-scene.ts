@@ -1,10 +1,12 @@
 import { CatService } from '../shared/catService';
 import { RoomScene } from './room-scene';
 import { Color } from '../shared/enums';
+import { Game } from '../game';
 
 export class MenuScene extends Phaser.Scene {
   catService = new CatService();
   roomScene = new RoomScene();
+  inputName;
 
   constructor() {
     super({
@@ -17,9 +19,9 @@ export class MenuScene extends Phaser.Scene {
   }
 
   preload(): void {
+    this.load.html('input', '../../src/html/input.html');
     this.load.image('catLogo', '../../assets/catLogo.png');
     this.load.image('button', '../../assets/gui/button.png');
-
   }
 
   create(): void {
@@ -36,10 +38,15 @@ export class MenuScene extends Phaser.Scene {
       fill: Color.ORANGE,
     });
 
-    const buttonSprite = this.add.sprite(290, 560, 'button').setDisplaySize(200, 50).setFrame('6').setInteractive();
+    this.inputName = this.add.dom(292, 480).createFromCache('input');
 
+    const buttonSprite = this.add
+      .sprite(290, 560, 'button')
+      .setDisplaySize(200, 50)
+      .setFrame('6')
+      .setInteractive();
     buttonSprite.on('pointerdown', () => {
-      this.scene.start('RoomScene');
+      this.startGame();
     });
 
     const buttonText = this.add
@@ -48,15 +55,20 @@ export class MenuScene extends Phaser.Scene {
         fontSize: '25px',
         fill: Color.BLUE,
       })
-      .setInteractive();
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.startGame();
+      });
 
-    buttonText.on('pointerdown', () => {
-      this.scene.start('RoomScene');
-    });
-
-    this.add.sprite(650, 400, 'catLogo').setScale(.8);
-
-
+    this.add.sprite(650, 400, 'catLogo').setScale(0.8);
   }
 
+  startGame() {
+    let catName = (<HTMLInputElement>document.getElementById('catName')).value;
+
+    if(catName !== null && catName !== ''){
+      this.catService.setCatName(catName);
+      this.scene.start('RoomScene');
+    }
+  }
 }
