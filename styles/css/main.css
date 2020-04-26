@@ -8,9 +8,6 @@ body {
   justify-content: center;
   align-content: center; }
 
-#game {
-  margin-top: 3vh; }
-
 canvas {
   border: #fcc700 7px solid;
   background: #006d8f !important;

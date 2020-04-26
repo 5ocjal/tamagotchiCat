@@ -29,7 +29,7 @@ export class RoomScene extends Phaser.Scene {
   bubbles;
 
   isDay = true;
-  dayCycle = 30;
+  dayCycle = 90;
 
   panel;
   statusBar;
@@ -466,54 +466,6 @@ export class RoomScene extends Phaser.Scene {
     return Phaser.Math.Between(2000, 7000);
   }
 
-  cleanShit() {
-    if (this.needClean) {
-      this.mop = this.physics.add.staticImage(this.shit.x - 65, this.shit.y - 30, 'mop');
-      this.mop.setScale(0.21);
-
-      let swipe = true;
-      let looper = 0;
-      if (looper < 7) {
-      let cleaning = setInterval(() => {
-          console.log('loop', looper);
-          if (swipe) {
-            this.mop.x += 55;
-            swipe = !swipe;
-            looper++;
-            if (looper === 7) {
-              clearInterval(cleaning);
-              this.cleanComplete();
-            }
-          } else {
-            this.mop.x -= 55;
-            swipe = !swipe;
-            looper++;
-            if (looper === 7) {
-              clearInterval(cleaning);
-              this.cleanComplete();
-            }
-          }
-        }, 500);
-      }
-    }
-  }
-
-  cleanComplete() {
-    console.log('trash');
-    this.mop.destroy();
-    this.trash = this.physics.add.sprite(this.shit.x, this.shit.y -20, 'trash').setScale(0.12);
-    this.physics.add.collider(this.trash, this.floor);
-    this.shit.destroy();
-    setTimeout(() => {
-      this.catState.happiness += 40;
-      this.trash.setVelocity(400, 10)
-    }, 1200);
-    setTimeout(() => {
-      this.trash.destroy();
-    }, 3000);
-    this.needClean = false;
-    this.showDialog('happy');
-  }
 
   dayNightChanger() {
     this.isDay = !this.isDay;
@@ -523,19 +475,21 @@ export class RoomScene extends Phaser.Scene {
       if (this.mouse !== undefined) {
         this.mouse.destroy();
       }
-      this.dayCycle = 30;
+      this.dayCycle = 90;
       this.roomDay.setVisible(true);
       this.roomNight.setVisible(false);
+      this.doorIcon.clearTint();
       this.doorIcon.setAlpha(1);
       this.cat.clearTint();
       this.bowl !== undefined && this.bowl.active ? this.bowl.clearTint() : null;
       this.drink !== undefined && this.drink.active ? this.drink.clearTint() : null;
       this.mop !== undefined && this.mop.active ? this.mop.clearTint() : null;
     } else {
-      this.dayCycle = 10;
+      this.dayCycle = 60;
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);
-      this.doorIcon.setAlpha(0.4);
+      this.doorIcon.setAlpha(0.7)
+      this.doorIcon.setTint(Color.NIGHTTINT);
       this.cat.setTint(Color.NIGHTTINT);
       this.bowl !== undefined && this.bowl.active ? this.bowl.setTint(Color.NIGHTTINT) : null;
       this.drink !== undefined && this.drink.active ? this.drink.setTint(Color.NIGHTTINT) : null;

@@ -13,7 +13,7 @@ export class ItemsCreator {
   }
 
   createShit(item) {
-    if(this.item.shit === undefined){
+    if(this.item.shit === undefined || this.item.shit.active === false){
       this.item.needClean = true;
       this.item.shit = this.item.physics.add
       .sprite(this.item.cat.x + 50, 490, 'shit')
@@ -22,9 +22,5 @@ export class ItemsCreator {
       .setDepth(0);
       this.item.physics.add.collider(this.item.shit, this.item.floor);
     }
-  }
-
-  cleanShit(){
-    console.log('sprzatnij')
   }
 }
