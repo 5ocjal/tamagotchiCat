@@ -109,10 +109,10 @@ export class GuiCreator {
       .setScrollFactor(0);
 
     this.gui.nameTitle = this.gui.add
-      .text(this.gui.nameBox.x - 240, this.gui.nameBox.y - 60, this.gui.catState.name, {
+      .text(this.gui.nameBox.x - 230, this.gui.nameBox.y - 55, 'Game Time:', {
         fontFamily: 'Indie Flower',
-        fontSize: '65px',
-        fill: Color.BLUE,
+        fontSize: '30px',
+        fill: Color.WHITE,
       })
       .setScrollFactor(0)
       .setOrigin(0, 0);

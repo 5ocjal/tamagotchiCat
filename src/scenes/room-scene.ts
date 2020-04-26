@@ -63,6 +63,10 @@ export class RoomScene extends Phaser.Scene {
   timerRun = false;
   timer;
   clock = 0;
+  gameTime = {
+    min: 0,
+    sec: 0,
+  };
   inAction = false;
   randomEvent: number;
 
@@ -175,7 +179,10 @@ export class RoomScene extends Phaser.Scene {
 
     this.guiCreator.createGui();
 
-    this.timer = this.add.text(10, 10, '', { fontSize: '20px' }).setDepth(15).setScrollFactor(0);
+    this.timer = this.add
+      .text(this.nameBox.x - 195, this.nameBox.y - 20, '', { fontSize: '25px', fill: Color.BLUE })
+      .setDepth(15)
+      .setScrollFactor(0);
 
     this.physics.add.collider(this.floor, [this.cat, this.shit]);
 
@@ -193,7 +200,13 @@ export class RoomScene extends Phaser.Scene {
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
-    this.timerRun ? this.timer.setText(this.clock.toString()) : this.timer.setText('No time');
+    this.timerRun
+      ? this.timer.setText(
+          this.gameTime.min.toString().padStart(2, '0') +
+            ':' +
+            this.gameTime.sec.toString().padStart(2, '0')
+        )
+      : this.timer.setText('No time');
 
     this.catState.hunger < 20 ? this.showDialog('eat') : null;
     this.catState.thirst < 20 ? this.showDialog('water') : null;
@@ -466,7 +479,6 @@ export class RoomScene extends Phaser.Scene {
     return Phaser.Math.Between(2000, 7000);
   }
 
-
   dayNightChanger() {
     this.isDay = !this.isDay;
     const setMouse = [3, 5, 7];
@@ -488,7 +500,7 @@ export class RoomScene extends Phaser.Scene {
       this.dayCycle = 60;
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);
-      this.doorIcon.setAlpha(0.7)
+      this.doorIcon.setAlpha(0.7);
       this.doorIcon.setTint(Color.NIGHTTINT);
       this.cat.setTint(Color.NIGHTTINT);
       this.bowl !== undefined && this.bowl.active ? this.bowl.setTint(Color.NIGHTTINT) : null;
@@ -502,6 +514,15 @@ export class RoomScene extends Phaser.Scene {
   }
 
   updateTimer() {
+    this.gameTime.sec++;
+
+    if (this.gameTime.sec === 60) {
+      this.gameTime.min++;
+      this.gameTime.sec = 0;
+
+      this.gameTime.min
+    }
+
     if (this.clock < this.dayCycle) {
       this.clock++;
     } else {
