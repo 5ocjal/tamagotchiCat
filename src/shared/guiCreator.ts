@@ -90,14 +90,15 @@ export class GuiCreator {
 
     this.gui.cleanIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 625, this.gui.panel.y - 58, 'cleanIcon')
-      .setDepth(10)
+      .setDepth(12)
       .setScale(0.1)
+      .setAlpha(.4)
       .setInteractive()
       .setScrollFactor(0);
 
     this.gui.doorIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 695, this.gui.panel.y - 60, 'doorIcon')
-      .setDepth(10)
+      .setDepth(12)
       .setScale(0.1)
       .setInteractive()
       .setScrollFactor(0);

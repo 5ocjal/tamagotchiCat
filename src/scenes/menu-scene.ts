@@ -19,7 +19,6 @@ export class MenuScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.html('input', '../../src/html/input.html');
     this.load.image('catLogo', '../../assets/catLogo.png');
     this.load.image('button', '../../assets/gui/button.png');
   }
@@ -32,13 +31,12 @@ export class MenuScene extends Phaser.Scene {
       fontSize: '75px',
       fill: Color.WHITE,
     });
-    this.add.text(210, 420, 'Podaj imię kota:', {
+    this.add.text(210, 420, 'Set game time:', {
       fontFamily: 'Roboto',
       fontSize: '25px',
       fill: Color.ORANGE,
     });
 
-    this.inputName = this.add.dom(292, 480).createFromCache('input');
 
     const buttonSprite = this.add
       .sprite(290, 560, 'button')
@@ -64,11 +62,6 @@ export class MenuScene extends Phaser.Scene {
   }
 
   startGame() {
-    let catName = (<HTMLInputElement>document.getElementById('catName')).value;
-
-    if(catName !== null && catName !== ''){
-      this.catService.setCatName(catName);
       this.scene.start('RoomScene');
     }
-  }
 }

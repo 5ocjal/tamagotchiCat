@@ -17,8 +17,8 @@ export class ControlCenter {
       }
     });
     this.control.waterIcon.on('pointerdown', () => {
-      console.log(this.control.drink)
-      if(this.control.drink === undefined || this.control.drink.active === false){
+      console.log(this.control.drink);
+      if (this.control.drink === undefined || this.control.drink.active === false) {
         this.control.drink = this.control.physics.add.sprite(550, -20, 'waterBowl').setScale(0.1);
         this.control.physics.add.collider(this.control.drink, this.control.floor);
         this.control.physics.add.overlap(this.control.cat, this.control.drink, () => {
@@ -29,7 +29,12 @@ export class ControlCenter {
     });
     this.control.balloonIcon.on('pointerdown', () => console.log('balloon'));
     this.control.bubbleIcon.on('pointerdown', () => console.log('bubble'));
-    this.control.cleanIcon.on('pointerdown',  () => console.log('clean'));
+    this.control.cleanIcon.on('pointerdown', () => {
+      if (this.control.shit !== undefined && this.control.shit.active) {
+        console.log('oh shit');
+        this.control.cleanShit();
+      }
+    });
     this.control.doorIcon.on('pointerdown', () => console.log('door'));
   }
 }
