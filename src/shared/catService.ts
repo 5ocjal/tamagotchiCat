@@ -2,7 +2,6 @@ import { CatColor, CatHealth, CatActivity, CatDirection } from './enums';
 export class CatService {
 
          cat = {
-           name: null,
            color: CatColor.ORANGE,
            activity: CatActivity.RUN,
            happiness: 100,
@@ -12,14 +11,6 @@ export class CatService {
            scared: false,
            health: CatHealth.FIT,
          };
-
-         setCatName(name) {
-           this.cat.name = name;
-         }
-
-         getCatName(): string {
-           return this.cat.name;
-         }
 
          setCatColor(color: CatColor) {
            this.cat.color = color;

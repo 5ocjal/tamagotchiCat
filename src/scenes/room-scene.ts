@@ -117,6 +117,8 @@ export class RoomScene extends Phaser.Scene {
 
     this.load.image('happyEmo', '../../assets/gui/icons/emotions/happy.png');
     this.load.image('sadEmo', '../../assets/gui/icons/emotions/sad.png');
+    this.load.image('sleepEmo', '../../assets/gui/icons/emotions/sleepy.png');
+    this.load.image('drinkEmo', '../../assets/gui/icons/emotions/drink.png');
 
     this.load.image('shit', '../../assets/items/shit.png');
     this.load.image('mop', '../../assets/items/mop.png');
@@ -260,6 +262,7 @@ export class RoomScene extends Phaser.Scene {
 
   catAttitude() {
     let takeAction: number = 0;
+    let currentAnim: string;
 
     if (this.inAction === false) {
       takeAction = this.pickAction();
@@ -519,8 +522,6 @@ export class RoomScene extends Phaser.Scene {
     if (this.gameTime.sec === 60) {
       this.gameTime.min++;
       this.gameTime.sec = 0;
-
-      this.gameTime.min
     }
 
     if (this.clock < this.dayCycle) {
@@ -593,6 +594,24 @@ export class RoomScene extends Phaser.Scene {
 
     if (info === 'water') {
       this.dialogIcon.setTexture('waterIcon').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 2000);
+    }
+
+    if (info === 'drink') {
+      this.dialogIcon.setTexture('drinkEmo').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 2000);
+    }
+
+    if (info === 'sleep') {
+      this.dialogIcon.setTexture('sleepEmo').setVisible(true).setScale(0.1);
 
       setTimeout(() => {
         this.dialogIcon.setVisible(false);

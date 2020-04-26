@@ -31,12 +31,6 @@ export class MenuScene extends Phaser.Scene {
       fontSize: '75px',
       fill: Color.WHITE,
     });
-    this.add.text(210, 420, 'Set game time:', {
-      fontFamily: 'Roboto',
-      fontSize: '25px',
-      fill: Color.ORANGE,
-    });
-
 
     const buttonSprite = this.add
       .sprite(290, 560, 'button')

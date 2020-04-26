@@ -131,9 +131,11 @@ export class ControlCenter {
             switch (action) {
               case 'drink':
                 this.control.catState.thirst += 40;
+                this.control.showDialog('drink')
                 break;
               case 'eat':
                 this.control.catState.hunger += 30;
+                this.control.showDialog('happy');
                 break;
             }
             clearInterval(progress);
