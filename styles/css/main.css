@@ -9,7 +9,7 @@ body {
   align-content: center; }
 
 canvas {
-  border: #fcc700 7px solid;
+  border: #ffd700 7px solid;
   background: #006d8f !important;
   border-radius: 25px;
   box-shadow: 22px 22px 44px #004257, -22px -22px 44px #03baf1; }

@@ -112,7 +112,7 @@ export class GuiCreator {
       .text(this.gui.nameBox.x - 230, this.gui.nameBox.y - 55, 'Game Time:', {
         fontFamily: 'Indie Flower',
         fontSize: '30px',
-        fill: Color.WHITE,
+        fill: Color.BLACK,
       })
       .setScrollFactor(0)
       .setOrigin(0, 0);

@@ -1,7 +1,6 @@
 import { CatService } from '../shared/catService';
 import { RoomScene } from './room-scene';
 import { Color } from '../shared/enums';
-import { Game } from '../game';
 
 export class MenuScene extends Phaser.Scene {
   catService = new CatService();

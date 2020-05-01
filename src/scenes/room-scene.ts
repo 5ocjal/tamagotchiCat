@@ -15,6 +15,7 @@ export class RoomScene extends Phaser.Scene {
   control = new ControlCenter(this);
 
   catState = this.catService.loadCatState();
+  needToBeLoad = true;
   roomDay;
   roomNight;
   floor;
@@ -81,10 +82,13 @@ export class RoomScene extends Phaser.Scene {
   }
 
   preload() {
-    this.loadingScreen.showLoadingProgress(this);
+    if (this.needToBeLoad) {
+      this.loadingScreen.showLoadingProgress(this);
+      this.needToBeLoad = false;
+    }
 
-    this.load.image('roomDay', '../../assets/room/roomB.jpg');
-    this.load.image('roomNight', '../../assets/room/roomNightB.jpg');
+    this.load.image('roomDay', '../../assets/room/room.jpg');
+    this.load.image('roomNight', '../../assets/room/roomNight.jpg');
     this.load.image('floor', '../../assets/room/ground.png');
 
     this.load.image('panel', '../../assets/gui/panel.png');
@@ -105,6 +109,8 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('bubbleIcon', '../../assets/gui/icons/bubble.png');
     this.load.image('cleanIcon', '../../assets/gui/icons/clean.png');
     this.load.image('doorIcon', '../../assets/gui/icons/door.png');
+    this.load.image('nightIcon', '.../../assets/gui/icons/night.png');
+    this.load.image('oudoorIcon', '.../../assets/gui/icons/outdoor.png');
 
     this.load.image('healthLevel', '.../../assets/gui/status/healthLevel.png');
     this.load.image('eatLevel', '.../../assets/gui/status/eatLevel.png');
@@ -182,7 +188,11 @@ export class RoomScene extends Phaser.Scene {
     this.guiCreator.createGui();
 
     this.timer = this.add
-      .text(this.nameBox.x - 195, this.nameBox.y - 20, '', { fontSize: '25px', fill: Color.BLUE })
+      .text(this.nameBox.x - 195, this.nameBox.y - 20, '', {
+        fontSize: '25px',
+        fontFamily: 'Indie Flower',
+        fill: Color.BLUE,
+      })
       .setDepth(15)
       .setScrollFactor(0);
 
@@ -191,9 +201,12 @@ export class RoomScene extends Phaser.Scene {
     this.cameras.main.fadeIn(4000, 0, 109, 143);
     this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
 
-    this.catMonitor();
-    this.happinessMonitor();
-    this.catAttitude();
+    if (this.cat.active === true) {
+      this.catMonitor();
+      this.happinessMonitor();
+      this.catAttitude();
+    }
+
     this.control.createContol();
   }
 
@@ -617,6 +630,24 @@ export class RoomScene extends Phaser.Scene {
         this.dialogIcon.setVisible(false);
         this.dialog.setVisible(false);
       }, 2000);
+    }
+
+    if (info === 'night') {
+      this.dialogIcon.setTexture('nightIcon').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 3000);
+    }
+
+    if (info === 'outdoor') {
+      this.dialogIcon.setTexture('outdoorIcon').setVisible(true).setScale(0.1);
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+      }, 3000);
     }
   }
 }

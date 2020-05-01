@@ -1,3 +1,4 @@
+import { OutdoorScene } from './../scenes/outdoor-scene';
 export class ControlCenter {
   control;
 
@@ -31,21 +32,26 @@ export class ControlCenter {
         this.cleanShit();
       }
     });
-    this.control.doorIcon.on('pointerdown', () => console.log('door'));
+    this.control.doorIcon.on('pointerdown', () => {
+      if(this.control.isDay){
+        this.control.cat.destroy();
+        this.control.scene.stop('RoomScene');
+        this.control.scene.start('OutdoorScene');
+      }else{
+        this.control.showDialog('night')};
+    });
   }
 
   startEating(catX, bowlX) {
     this.control.cat.play('stand');
     this.control.cat.setVelocity(0);
     if (catX > bowlX) {
-      console.log('z prawej');
       this.control.cat.setScale(0.14, 0.14);
       this.control.cat.setOffset(1100, 0);
       this.actionProgress(this.control.bowl, 'eat');
     }
 
     if (catX < bowlX) {
-      console.log('z lewej');
       this.control.cat.setScale(-0.14, 0.14);
       this.control.cat.setOffset(-1100, 0);
       this.actionProgress(this.control.bowl, 'eat');
@@ -56,14 +62,12 @@ export class ControlCenter {
     this.control.cat.play('stand');
     this.control.cat.setVelocity(0);
     if (catX > drinkX) {
-      console.log('z prawej');
       this.control.cat.setScale(0.14, 0.14);
       this.control.cat.setOffset(1100, 0);
       this.actionProgress(this.control.drink, 'drink');
     }
 
     if (catX < drinkX) {
-      console.log('z lewej');
       this.control.cat.setScale(-0.14, 0.14);
       this.control.cat.setOffset(-1100, 0);
       this.actionProgress(this.control.drink, 'drink');
@@ -72,7 +76,11 @@ export class ControlCenter {
 
   cleanShit() {
     if (this.control.needClean) {
-      this.control.mop = this.control.physics.add.staticImage(this.control.shit.x - 65, this.control.shit.y - 30, 'mop');
+      this.control.mop = this.control.physics.add.staticImage(
+        this.control.shit.x - 65,
+        this.control.shit.y - 30,
+        'mop'
+      );
       this.control.mop.setScale(0.21);
 
       let swipe = true;
@@ -103,7 +111,9 @@ export class ControlCenter {
 
   cleanComplete() {
     this.control.mop.destroy();
-    this.control.trash = this.control.physics.add.sprite(this.control.shit.x, this.control.shit.y - 20, 'trash').setScale(0.12);
+    this.control.trash = this.control.physics.add
+      .sprite(this.control.shit.x, this.control.shit.y - 20, 'trash')
+      .setScale(0.12);
     this.control.physics.add.collider(this.control.trash, this.control.floor);
     this.control.shit.destroy();
     setTimeout(() => {
@@ -131,7 +141,7 @@ export class ControlCenter {
             switch (action) {
               case 'drink':
                 this.control.catState.thirst += 40;
-                this.control.showDialog('drink')
+                this.control.showDialog('drink');
                 break;
               case 'eat':
                 this.control.catState.hunger += 30;
