@@ -144,7 +144,7 @@ export class OutdoorScene extends Phaser.Scene {
         this.dialog.setVisible(false);
         this.cat.setScale(-0.05, 0.05);
         this.cat.play('run');
-        this.cat.setVelocity(200, 50);
+        this.cat.setVelocity(200, 100);
         this.backHome();
       }, 3000);
     }, 12000);

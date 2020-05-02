@@ -43,5 +43,13 @@ export class AnimationsCreator {
       repeat: -1,
       hideOnComplete: true,
     });
+
+    scene.anims.create({
+      key: 'balloon',
+      frames: scene.anims.generateFrameNumbers('balloonBoom', { start: 1, end: 6}),
+      frameRate: 100,
+      repeat: 1,
+      hideOnComplete: true,
+    })
   }
 }

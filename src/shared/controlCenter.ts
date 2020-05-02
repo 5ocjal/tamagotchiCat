@@ -8,7 +8,10 @@ export class ControlCenter {
 
   createContol() {
     this.control.eatIcon.on('pointerdown', () => {
-      if (this.control.bowl === undefined || this.control.bowl.active === false) {
+      if (
+        this.control.bowl === undefined ||
+        (this.control.bowl.active === false && this.control.drink.active === false)
+      ) {
         this.control.bowl = this.control.physics.add.sprite(280, -20, 'eatIcon').setScale(0.12);
         this.control.physics.add.collider(this.control.bowl, this.control.floor);
         this.control.physics.add.overlap(this.control.cat, this.control.bowl, () => {
@@ -17,7 +20,10 @@ export class ControlCenter {
       }
     });
     this.control.waterIcon.on('pointerdown', () => {
-      if (this.control.drink === undefined || this.control.drink.active === false) {
+      if (
+        this.control.drink === undefined ||
+        (this.control.drink.active === false && this.control.bowl.active === false)
+      ) {
         this.control.drink = this.control.physics.add.sprite(570, -20, 'waterBowl').setScale(0.1);
         this.control.physics.add.collider(this.control.drink, this.control.floor);
         this.control.physics.add.overlap(this.control.cat, this.control.drink, () => {
@@ -25,7 +31,25 @@ export class ControlCenter {
         });
       }
     });
-    this.control.balloonIcon.on('pointerdown', () => console.log('balloon'));
+    this.control.balloonIcon.on('pointerdown', () => {
+
+      console.log('Ball: ', this.control.balloon)
+      if (this.control.balloon === undefined || this.control.balloon.active === false) {
+        this.control.balloon = this.control.physics.add.sprite(100, 1600, 'balloonBoom');
+
+        this.control.balloon
+          .setBounce(0.5)
+          .setDepth(2)
+          .setScale(0.3)
+          .setCollideWorldBounds(true)
+          .setGravity(2, -330);
+
+        setTimeout(() => {
+          this.control.showDialog('balloon');
+        }, 6000);
+      }
+    });
+
     this.control.bubbleIcon.on('pointerdown', () => console.log('bubble'));
     this.control.cleanIcon.on('pointerdown', () => {
       if (this.control.shit !== undefined && this.control.shit.active) {
@@ -33,12 +57,13 @@ export class ControlCenter {
       }
     });
     this.control.doorIcon.on('pointerdown', () => {
-      if(this.control.isDay){
+      if (this.control.isDay) {
         this.control.cat.destroy();
         this.control.scene.stop('RoomScene');
         this.control.scene.start('OutdoorScene');
-      }else{
-        this.control.showDialog('night')};
+      } else {
+        this.control.showDialog('night');
+      }
     });
   }
 
