@@ -45,10 +45,10 @@ export class AnimationsCreator {
     });
 
     scene.anims.create({
-      key: 'balloon',
+      key: 'balloonBoom',
       frames: scene.anims.generateFrameNumbers('balloonBoom', { start: 1, end: 6}),
-      frameRate: 100,
-      repeat: 1,
+      frameRate: 40,
+      repeat: 0,
       hideOnComplete: true,
     })
   }

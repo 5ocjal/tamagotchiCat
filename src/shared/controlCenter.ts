@@ -33,7 +33,6 @@ export class ControlCenter {
     });
     this.control.balloonIcon.on('pointerdown', () => {
 
-      console.log('Ball: ', this.control.balloon)
       if (this.control.balloon === undefined || this.control.balloon.active === false) {
         this.control.balloon = this.control.physics.add.sprite(100, 1600, 'balloonBoom');
 
@@ -65,6 +64,12 @@ export class ControlCenter {
         this.control.showDialog('night');
       }
     });
+  }
+
+  blowBalloon(){
+    this.control.balloon.play('balloonBoom');
+    this.control.balloon.destroy();
+    this.control.showDialog('eMark')
   }
 
   startEating(catX, bowlX) {

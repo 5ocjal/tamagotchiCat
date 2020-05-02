@@ -12,7 +12,7 @@ export class ItemsCreator {
     this.item.mouse.play('mouseRun').setVelocityX(350);
   }
 
-  createShit(item) {
+  createShit() {
     if(this.item.shit === undefined || this.item.shit.active === false){
       this.item.needClean = true;
       this.item.shit = this.item.physics.add

@@ -125,6 +125,7 @@ export class RoomScene extends Phaser.Scene {
     this.load.image('sadEmo', '../../assets/gui/icons/emotions/sad.png');
     this.load.image('sleepEmo', '../../assets/gui/icons/emotions/sleepy.png');
     this.load.image('drinkEmo', '../../assets/gui/icons/emotions/drink.png');
+    this.load.image('eMark', '../../assets/gui/icons/exMark.png');
 
     this.load.image('shit', '../../assets/items/shit.png');
     this.load.image('mop', '../../assets/items/mop.png');
@@ -215,9 +216,6 @@ export class RoomScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.balloon !== undefined) {
-      this.balloon.x >= 1200 ? this.balloon.destroy() : null;
-    }
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
@@ -248,6 +246,10 @@ export class RoomScene extends Phaser.Scene {
       this.cleanIcon.setAlpha(1);
     } else {
       this.cleanIcon.setAlpha(0.4);
+    }
+
+    if (this.balloon !== undefined) {
+      this.balloon.x >= 1000 ? this.control.blowBalloon() : null;
     }
 
     this.healthLevel.setCrop(
@@ -306,7 +308,7 @@ export class RoomScene extends Phaser.Scene {
       this.cat.setScale(0.14, 0.14);
       this.cat.setOffset(0, 0);
       this.cat.setVelocity(0);
-      this.itemsCreator.createShit(this);
+      this.itemsCreator.createShit();
 
       setTimeout(() => {
         this.inAction = false;
@@ -484,10 +486,16 @@ export class RoomScene extends Phaser.Scene {
       }
 
       if (this.balloon !== undefined && this.balloon.active) {
-        setTimeout(() => {
-          this.physics.add.collider(this.balloon, [this.floor, this.balloon]);
+        this.physics.add.collider(this.balloon, this.floor);
+        this.balloon.setInteractive();
+
+        this.balloon.on('pointerdown', () => {
+          this.control.blowBalloon();
+        });
+
+        if (this.balloon.y <= 100) {
           this.balloon.setGravity(0, -300);
-        }, 10000);
+        }
       }
     }, 1000);
   }
@@ -563,6 +571,17 @@ export class RoomScene extends Phaser.Scene {
   showDialog(info) {
     this.dialog.setVisible(true);
 
+    if (info === 'eMark') {
+      this.dialogIcon.setTexture('eMark').setVisible(true).setScale(0.08);
+      this.catState.scared = true;
+
+      setTimeout(() => {
+        this.dialogIcon.setVisible(false);
+        this.dialog.setVisible(false);
+        this.catState.scared = false;
+      }, 2000);
+    }
+
     if (info === 'mouse') {
       this.dialogIcon.setTexture('mouseIcon').setVisible(true).setScale(0.08);
       this.cat.play('run');
@@ -613,6 +632,7 @@ export class RoomScene extends Phaser.Scene {
 
     if (info === 'balloon') {
       this.dialogIcon.setTexture('balloonIcon').setVisible(true).setScale(0.1);
+      this.catState.happiness += 40;
 
       setTimeout(() => {
         this.dialogIcon.setVisible(false);
