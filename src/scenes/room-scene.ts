@@ -136,6 +136,12 @@ export class RoomScene extends Phaser.Scene {
       frameWidth: 512,
       frameHeight: 512,
     });
+
+    this.load.spritesheet('bubblesBoom', '../../assets/items/bubbles.png', {
+      frameWidth: 394,
+      frameHeight: 511,
+    });
+
     this.load.spritesheet('walk', '../../assets/cat/' + this.catState.color + '/walk.png', {
       frameWidth: 1082,
       frameHeight: 811,

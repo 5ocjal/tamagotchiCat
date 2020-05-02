@@ -51,5 +51,13 @@ export class AnimationsCreator {
       repeat: 0,
       hideOnComplete: true,
     })
+
+        scene.anims.create({
+          key: 'bubblesBoom',
+          frames: scene.anims.generateFrameNumbers('bubblesBoom', { start: 1, end: 6 }),
+          frameRate: 30,
+          repeat: 0,
+          hideOnComplete: true,
+        });
   }
 }

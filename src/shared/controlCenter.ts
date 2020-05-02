@@ -32,7 +32,6 @@ export class ControlCenter {
       }
     });
     this.control.balloonIcon.on('pointerdown', () => {
-
       if (this.control.balloon === undefined || this.control.balloon.active === false) {
         this.control.balloon = this.control.physics.add.sprite(100, 1600, 'balloonBoom');
 
@@ -49,12 +48,38 @@ export class ControlCenter {
       }
     });
 
-    this.control.bubbleIcon.on('pointerdown', () => console.log('bubble'));
+    this.control.bubbleIcon.on('pointerdown', () => {
+      this.control.bubbles = this.control.physics.add.group({
+        key: 'bubblesBoom',
+        repeat: 11,
+        setXY: {
+          x: 100,
+          y: -100,
+          stepX: Phaser.Math.Between(20, 200),
+          stepY: Phaser.Math.Between(-100, 0),
+        },
+      });
+
+      this.control.bubbles.children.iterate((child) => {
+        child.setScale(0.12);
+        child.setMass(0);
+        child.setGravity(Phaser.Math.Between(-5, 5), -290);
+        setTimeout(() => {
+          this.control.catState.happiness += 1;
+          child.setScale(0.15);
+          child.play('bubblesBoom');
+        }, Phaser.Math.Between(7000, 15000));
+      });
+
+      this.control.physics.add.collider(this.control.bubbles, this.control.floor);
+    });
+
     this.control.cleanIcon.on('pointerdown', () => {
       if (this.control.shit !== undefined && this.control.shit.active) {
         this.cleanShit();
       }
     });
+
     this.control.doorIcon.on('pointerdown', () => {
       if (this.control.isDay) {
         this.control.cat.destroy();
@@ -66,10 +91,10 @@ export class ControlCenter {
     });
   }
 
-  blowBalloon(){
+  blowBalloon() {
     this.control.balloon.play('balloonBoom');
     this.control.balloon.destroy();
-    this.control.showDialog('eMark')
+    this.control.showDialog('eMark');
   }
 
   startEating(catX, bowlX) {
