@@ -1,11 +1,13 @@
 import { CatService } from '../shared/catService';
 import { RoomScene } from './room-scene';
+import { CreditsScene } from './credits-scene';
 import { Color } from '../shared/enums';
 
 export class MenuScene extends Phaser.Scene {
   catService = new CatService();
   roomScene = new RoomScene();
-  inputName;
+  creditSceen = new CreditsScene();
+  credits;
 
   constructor() {
     super({
@@ -31,6 +33,12 @@ export class MenuScene extends Phaser.Scene {
       fill: Color.WHITE,
     });
 
+    this.credits = this.add.text(780, 660, 'Credits', {
+      fontFamily: 'Indie Flower',
+      fontSize: '22px',
+      fill: Color.ORANGE,
+    });
+
     const buttonSprite = this.add
       .sprite(290, 560, 'button')
       .setDisplaySize(200, 50)
@@ -52,6 +60,9 @@ export class MenuScene extends Phaser.Scene {
       });
 
     this.add.sprite(650, 400, 'catLogo').setScale(0.8);
+    this.credits.setInteractive({ useHandCursor: true }).on('pointerdown', () => {
+      this.scene.start('CreditsScene');
+    });;
   }
 
   startGame() {

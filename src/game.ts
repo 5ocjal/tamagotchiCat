@@ -2,6 +2,7 @@ import "phaser";
 import { MenuScene } from "./scenes/menu-scene";
 import { RoomScene } from "./scenes/room-scene";
 import { OutdoorScene } from "./scenes/outdoor-scene";
+import { CreditsScene } from "./scenes/credits-scene";
 
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -13,7 +14,7 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [MenuScene, RoomScene, OutdoorScene],
+  scene: [MenuScene, RoomScene, OutdoorScene, CreditsScene],
   physics: {
     default: 'arcade',
     arcade: {

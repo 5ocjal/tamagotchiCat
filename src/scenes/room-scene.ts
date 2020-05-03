@@ -514,10 +514,10 @@ export class RoomScene extends Phaser.Scene {
         this.catState.happiness -= 7;
       }
 
-      let catMakeSound = [3, 5, 12, 21];
+      let catMakeSound = [7, 23];
 
       if (catMakeSound.includes(Phaser.Math.Between(0, 25))) {
-        this.sound.play('meow', { volume: 0.5 });
+        this.sound.play('meow', { volume: 0.2 });
       }
     }, 1000);
   }
