@@ -1,4 +1,5 @@
 import { OutdoorScene } from './../scenes/outdoor-scene';
+import { Color } from './enums';
 export class ControlCenter {
   control;
 
@@ -8,17 +9,27 @@ export class ControlCenter {
 
   createContol() {
     this.control.eatIcon.on('pointerdown', () => {
+      
       if (
         this.control.bowl === undefined ||
         (this.control.bowl.active === false && this.control.drink.active === false)
-      ) {
-        this.control.bowl = this.control.physics.add.sprite(280, -20, 'eatIcon').setScale(0.12);
-        this.control.physics.add.collider(this.control.bowl, this.control.floor);
-        this.control.physics.add.overlap(this.control.cat, this.control.bowl, () => {
-          this.startEating(this.control.cat.x, this.control.bowl.x);
-        });
-      }
+        ) {
+          this.control.bowl = this.control.physics.add.sprite(280, -20, 'eatIcon').setScale(0.12);
+          this.control.physics.add.collider(this.control.bowl, this.control.floor);
+          this.control.physics.add.overlap(this.control.cat, this.control.bowl, () => {
+            this.startEating(this.control.cat.x, this.control.bowl.x);
+          });
+        }
+
+        this.control.eatIcon.setScale(0.13);
     });
+
+    this.control.eatIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.eatIcon.setScale(0.1);;
+      }, 200);
+    });
+
     this.control.waterIcon.on('pointerdown', () => {
       if (
         this.control.drink === undefined ||
@@ -30,20 +41,27 @@ export class ControlCenter {
           this.startDrinking(this.control.cat.x, this.control.drink.x);
         });
       }
+      this.control.waterIcon.setScale(0.13);
     });
+
+    this.control.waterIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.waterIcon.setScale(0.1);;
+      }, 200);
+    });
+
     this.control.balloonIcon.on('pointerdown', () => {
+      this.control.balloon = this.control.physics.add.group({
+        key: 'balloonBoom',
+        repeat: 0,
+        setXY: {
+          x: Phaser.Math.Between(30, 130),
+          y: 1600,
+        },
+      });
 
-        this.control.balloon = this.control.physics.add.group({
-          key: 'balloonBoom',
-          repeat: 0,
-          setXY: {
-            x: Phaser.Math.Between(30, 130),
-            y: 1600,
-          },
-        });
-
-        this.control.balloon.children.iterate((child) => {
-          child
+      this.control.balloon.children.iterate((child) => {
+        child
           .setMass(0)
           .setBounce(0.5)
           .setDepth(2)
@@ -51,20 +69,27 @@ export class ControlCenter {
           .setScale(0.3)
           .setCollideWorldBounds(true)
           .on('pointerdown', () => {
-                child.play('balloonBoom');
-                this.control.showDialog('eMark');
-                setTimeout(() => {
-                  child.destroy();
-                }, 500);
+            child.play('balloonBoom');
+            this.control.showDialog('eMark');
+            setTimeout(() => {
+              child.destroy();
+            }, 500);
           })
-          .setGravity(Phaser.Math.Between(2,5), -320);
-          
-        })
+          .setGravity(Phaser.Math.Between(2, 5), -320);
+      });
 
-        setTimeout(() => {
-          this.control.showDialog('balloon');
-        }, 3000);  
+      setTimeout(() => {
+        this.control.showDialog('balloon');
+      }, 3000);
+      this.control.balloonIcon.setScale(0.13);
     });
+
+    this.control.balloonIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.balloonIcon.setScale(0.1);;
+      }, 200);
+    });
+
 
     this.control.bubbleIcon.on('pointerdown', () => {
       this.control.bubbles = this.control.physics.add.group({
@@ -72,9 +97,9 @@ export class ControlCenter {
         repeat: 11,
         setXY: {
           x: 100,
-          y: -100,
+          y: 10,
           stepX: Phaser.Math.Between(20, 200),
-          stepY: Phaser.Math.Between(-100, 0),
+          stepY: Phaser.Math.Between(-70, 0),
         },
       });
 
@@ -92,15 +117,31 @@ export class ControlCenter {
       this.control.physics.add.collider(this.control.bubbles, this.control.floor);
 
       setTimeout(() => {
-        this.control.showDialog('happy')
+        this.control.showDialog('happy');
       }, 6000);
+      this.control.bubbleIcon.setScale(0.13);
     });
+
+    this.control.bubbleIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.bubbleIcon.setScale(0.1);;
+      }, 200);
+    });
+
 
     this.control.cleanIcon.on('pointerdown', () => {
       if (this.control.shit !== undefined && this.control.shit.active) {
         this.cleanShit();
       }
+      this.control.cleanIcon.setScale(0.13);
     });
+
+    this.control.cleanIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.cleanIcon.setScale(0.1);;
+      }, 200);
+    });
+
 
     this.control.doorIcon.on('pointerdown', () => {
       if (this.control.isDay) {
@@ -110,7 +151,15 @@ export class ControlCenter {
       } else {
         this.control.showDialog('night');
       }
+      this.control.doorIcon.setScale(0.13);
     });
+
+    this.control.doorIcon.on('pointerup', () => {
+      setTimeout(() => {
+        this.control.doorIcon.setScale(0.1);;
+      }, 200);
+    });
+
   }
 
   startEating(catX, bowlX) {

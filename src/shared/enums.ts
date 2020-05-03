@@ -11,7 +11,8 @@ export enum Color {
   RED = '#f72f00',
   NIGHTTINT = 0x605e63,
   NIGHTGUI = 0x4d0a68,
-  BLACK = '2323223'
+  BLACK = '2323223',
+  PUSH = '0x3ec8f16e'
 }
 
 export enum CatActivity {
