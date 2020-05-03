@@ -163,6 +163,9 @@ export class RoomScene extends Phaser.Scene {
       frameWidth: 1009,
       frameHeight: 748,
     });
+
+    this.load.audio('meow', '../../assets/audio/meow.mp3', { volume: 0.2});
+    this.load.audio('pop', '../../assets/audio/pop.mp3');
   }
 
   create() {
@@ -192,7 +195,7 @@ export class RoomScene extends Phaser.Scene {
       .setTint()
       .setScale(0.14, 0.14)
       .setDrag(10)
-      .setInteractive({cursor: 'grab'})
+      .setInteractive({ cursor: 'grab' })
       .on('pointerover', () => this.showDialog('happy'))
       .play('idle');
 
@@ -507,6 +510,12 @@ export class RoomScene extends Phaser.Scene {
       if (this.shit !== undefined && this.shit.active) {
         this.catState.happiness -= 7;
       }
+
+      let catMakeSound = [3, 5, 12, 21];
+
+      if (catMakeSound.includes(Phaser.Math.Between(0, 25))) {
+        this.sound.play('meow');
+      }
     }, 1000);
   }
 
@@ -625,6 +634,7 @@ export class RoomScene extends Phaser.Scene {
       this.dialogIcon.setTexture('happyEmo').setVisible(true).setScale(0.1);
       this.cat.play('run');
       this.cat.setVelocityY(-100);
+      this.sound.play('meow');
       this.catState.happiness += 5;
 
       setTimeout(() => {

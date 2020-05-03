@@ -1,4 +1,4 @@
-import { CatColor, CatHealth, CatActivity, CatDirection } from './enums';
+import { CatColor, CatHealth, CatActivity } from './enums';
 export class CatService {
 
          cat = {

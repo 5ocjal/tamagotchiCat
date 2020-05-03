@@ -30,7 +30,3 @@ export enum CatHealth {
   SLEEPY = 'sleepy',
 }
 
-export enum CatDirection {
-  LEFT = 'Left',
-  RIGHT = 'Right'
-}

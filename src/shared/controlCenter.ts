@@ -69,6 +69,7 @@ export class ControlCenter {
           .setCollideWorldBounds(true)
           .on('pointerdown', () => {
             child.play('balloonBoom');
+            this.control.sound.play('pop');
             this.control.showDialog('eMark');
             setTimeout(() => {
               child.destroy();
