@@ -21,12 +21,20 @@ export class ControlCenter {
           });
         }
 
+<<<<<<< HEAD
         this.control.eatIcon.setScale(0.13);
+=======
+        this.control.eatIcon.setTint(Color.PUSH);
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
     });
 
     this.control.eatIcon.on('pointerup', () => {
       setTimeout(() => {
+<<<<<<< HEAD
         this.control.eatIcon.setScale(0.1);;
+=======
+        this.control.eatIcon.clearTint();
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
       }, 200);
     });
 
@@ -41,12 +49,20 @@ export class ControlCenter {
           this.startDrinking(this.control.cat.x, this.control.drink.x);
         });
       }
+<<<<<<< HEAD
       this.control.waterIcon.setScale(0.13);
+=======
+      this.control.waterIcon.setTint(Color.PUSH);
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
     });
 
     this.control.waterIcon.on('pointerup', () => {
       setTimeout(() => {
+<<<<<<< HEAD
         this.control.waterIcon.setScale(0.1);;
+=======
+        this.control.waterIcon.clearTint();
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
       }, 200);
     });
 
@@ -81,12 +97,20 @@ export class ControlCenter {
       setTimeout(() => {
         this.control.showDialog('balloon');
       }, 3000);
+<<<<<<< HEAD
       this.control.balloonIcon.setScale(0.13);
+=======
+      this.control.balloonIcon.setTint(Color.PUSH);
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
     });
 
     this.control.balloonIcon.on('pointerup', () => {
       setTimeout(() => {
+<<<<<<< HEAD
         this.control.balloonIcon.setScale(0.1);;
+=======
+        this.control.balloonIcon.clearTint();
+>>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
       }, 200);
     });
 
