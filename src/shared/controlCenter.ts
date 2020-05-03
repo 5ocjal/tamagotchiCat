@@ -9,32 +9,23 @@ export class ControlCenter {
 
   createContol() {
     this.control.eatIcon.on('pointerdown', () => {
-      
       if (
         this.control.bowl === undefined ||
         (this.control.bowl.active === false && this.control.drink.active === false)
-        ) {
-          this.control.bowl = this.control.physics.add.sprite(280, -20, 'eatIcon').setScale(0.12);
-          this.control.physics.add.collider(this.control.bowl, this.control.floor);
-          this.control.physics.add.overlap(this.control.cat, this.control.bowl, () => {
-            this.startEating(this.control.cat.x, this.control.bowl.x);
-          });
-        }
+      ) {
+        this.control.bowl = this.control.physics.add.sprite(280, -20, 'eatIcon').setScale(0.12);
+        this.control.physics.add.collider(this.control.bowl, this.control.floor);
+        this.control.physics.add.overlap(this.control.cat, this.control.bowl, () => {
+          this.startEating(this.control.cat.x, this.control.bowl.x);
+        });
+      }
 
-<<<<<<< HEAD
-        this.control.eatIcon.setScale(0.13);
-=======
-        this.control.eatIcon.setTint(Color.PUSH);
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
+      this.control.eatIcon.setScale(0.13);
     });
 
     this.control.eatIcon.on('pointerup', () => {
       setTimeout(() => {
-<<<<<<< HEAD
-        this.control.eatIcon.setScale(0.1);;
-=======
-        this.control.eatIcon.clearTint();
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
+        this.control.eatIcon.setScale(0.1);
       }, 200);
     });
 
@@ -49,20 +40,12 @@ export class ControlCenter {
           this.startDrinking(this.control.cat.x, this.control.drink.x);
         });
       }
-<<<<<<< HEAD
       this.control.waterIcon.setScale(0.13);
-=======
-      this.control.waterIcon.setTint(Color.PUSH);
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
     });
 
     this.control.waterIcon.on('pointerup', () => {
       setTimeout(() => {
-<<<<<<< HEAD
-        this.control.waterIcon.setScale(0.1);;
-=======
-        this.control.waterIcon.clearTint();
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
+        this.control.waterIcon.setScale(0.1);
       }, 200);
     });
 
@@ -81,7 +64,7 @@ export class ControlCenter {
           .setMass(0)
           .setBounce(0.5)
           .setDepth(2)
-          .setInteractive()
+          .setInteractive({ useHandCursor: true })
           .setScale(0.3)
           .setCollideWorldBounds(true)
           .on('pointerdown', () => {
@@ -97,23 +80,14 @@ export class ControlCenter {
       setTimeout(() => {
         this.control.showDialog('balloon');
       }, 3000);
-<<<<<<< HEAD
       this.control.balloonIcon.setScale(0.13);
-=======
-      this.control.balloonIcon.setTint(Color.PUSH);
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
     });
 
     this.control.balloonIcon.on('pointerup', () => {
       setTimeout(() => {
-<<<<<<< HEAD
-        this.control.balloonIcon.setScale(0.1);;
-=======
-        this.control.balloonIcon.clearTint();
->>>>>>> de90ce8bf5104bea18d703c1e5e38a21da414ee7
+        this.control.balloonIcon.setScale(0.1);
       }, 200);
     });
-
 
     this.control.bubbleIcon.on('pointerdown', () => {
       this.control.bubbles = this.control.physics.add.group({
@@ -148,10 +122,9 @@ export class ControlCenter {
 
     this.control.bubbleIcon.on('pointerup', () => {
       setTimeout(() => {
-        this.control.bubbleIcon.setScale(0.1);;
+        this.control.bubbleIcon.setScale(0.1);
       }, 200);
     });
-
 
     this.control.cleanIcon.on('pointerdown', () => {
       if (this.control.shit !== undefined && this.control.shit.active) {
@@ -162,10 +135,9 @@ export class ControlCenter {
 
     this.control.cleanIcon.on('pointerup', () => {
       setTimeout(() => {
-        this.control.cleanIcon.setScale(0.1);;
+        this.control.cleanIcon.setScale(0.1);
       }, 200);
     });
-
 
     this.control.doorIcon.on('pointerdown', () => {
       if (this.control.isDay) {
@@ -180,10 +152,9 @@ export class ControlCenter {
 
     this.control.doorIcon.on('pointerup', () => {
       setTimeout(() => {
-        this.control.doorIcon.setScale(0.1);;
+        this.control.doorIcon.setScale(0.1);
       }, 200);
     });
-
   }
 
   startEating(catX, bowlX) {

@@ -35,7 +35,7 @@ export class MenuScene extends Phaser.Scene {
       .sprite(290, 560, 'button')
       .setDisplaySize(200, 50)
       .setFrame('6')
-      .setInteractive();
+      .setInteractive({ useHandCursor: true });
     buttonSprite.on('pointerdown', () => {
       this.startGame();
     });
@@ -46,7 +46,7 @@ export class MenuScene extends Phaser.Scene {
         fontSize: '25px',
         fill: Color.BLUE,
       })
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .on('pointerdown', () => {
         this.startGame();
       });

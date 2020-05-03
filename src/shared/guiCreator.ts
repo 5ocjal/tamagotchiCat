@@ -63,7 +63,7 @@ export class GuiCreator {
       .staticSprite(this.gui.panel.x + 345, this.gui.panel.y - 50, 'eatIcon')
       .setDepth(10)
       .setScale(0.1)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.waterIcon = this.gui.physics.add
@@ -71,21 +71,21 @@ export class GuiCreator {
       .setRotation(12)
       .setDepth(10)
       .setScale(0.1)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.balloonIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 485, this.gui.panel.y - 60, 'balloonIcon')
       .setDepth(10)
       .setScale(0.1)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.bubbleIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 560, this.gui.panel.y - 60, 'bubbleIcon')
       .setDepth(10)
       .setScale(0.1)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.cleanIcon = this.gui.physics.add
@@ -93,14 +93,14 @@ export class GuiCreator {
       .setDepth(12)
       .setScale(0.1)
       .setAlpha(.4)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.doorIcon = this.gui.physics.add
       .staticSprite(this.gui.panel.x + 695, this.gui.panel.y - 60, 'doorIcon')
       .setDepth(12)
       .setScale(0.1)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .setScrollFactor(0);
 
     this.gui.nameBox = this.gui.physics.add

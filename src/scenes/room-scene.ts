@@ -192,7 +192,7 @@ export class RoomScene extends Phaser.Scene {
       .setTint()
       .setScale(0.14, 0.14)
       .setDrag(10)
-      .setInteractive()
+      .setInteractive({cursor: 'grab'})
       .on('pointerover', () => this.showDialog('happy'))
       .play('idle');
 
@@ -222,7 +222,6 @@ export class RoomScene extends Phaser.Scene {
   }
 
   update() {
-
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
@@ -259,22 +258,22 @@ export class RoomScene extends Phaser.Scene {
       this.cleanIcon.y = this.panel.y - 48;
     }
 
-        if (this.balloon !== undefined && this.balloon.children !== undefined) {
-          this.balloon.children.iterate((child) => {
-            if (child.y <= 100) {
-              child.setGravity(0, -300);
-              this.physics.add.collider(child, this.floor);
-            }
-            if (child.x >= 1300) {
-              child.play('balloonBoom');
-
-              setTimeout(() => {
-                child.destroy();
-              }, 1000);
-            }
-            this.isDay ? child.clearTint() : child.setTint(Color.NIGHTTINT);
-          });
+    if (this.balloon !== undefined && this.balloon.children !== undefined) {
+      this.balloon.children.iterate((child) => {
+        if (child.y <= 100) {
+          child.setGravity(0, -300);
+          this.physics.add.collider(child, this.floor);
         }
+        if (child.x >= 1300) {
+          child.play('balloonBoom');
+
+          setTimeout(() => {
+            child.destroy();
+          }, 1000);
+        }
+        this.isDay ? child.clearTint() : child.setTint(Color.NIGHTTINT);
+      });
+    }
 
     this.healthLevel.setCrop(
       0,

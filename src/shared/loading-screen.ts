@@ -2,6 +2,7 @@ import { Color } from './enums';
 
 export class LoadingScreen {
   showLoadingProgress(game) {
+
     const progressBar = game.add.graphics();
     const progressBox = game.add.graphics();
     progressBox.fillStyle(0xfcc700, 0.8);
