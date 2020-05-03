@@ -222,6 +222,7 @@ export class RoomScene extends Phaser.Scene {
   }
 
   update() {
+
     this.cat.x <= 130 || this.cat.x >= 700
       ? this.cameras.main.stopFollow()
       : this.cameras.main.startFollow(this.cat).setFollowOffset(0, 180);
@@ -250,13 +251,30 @@ export class RoomScene extends Phaser.Scene {
     if (this.shit !== undefined && this.shit.active) {
       this.showDialog('shit');
       this.cleanIcon.setAlpha(1);
+      this.cleanIcon.setScale(0.1);
+      this.cleanIcon.y = this.panel.y - 58;
     } else {
       this.cleanIcon.setAlpha(0.4);
+      this.cleanIcon.setScale(0.07);
+      this.cleanIcon.y = this.panel.y - 48;
     }
 
-    if (this.balloon !== undefined) {
-      this.balloon.x >= 1000 ? this.control.blowBalloon() : null;
-    }
+        if (this.balloon !== undefined && this.balloon.children !== undefined) {
+          this.balloon.children.iterate((child) => {
+            if (child.y <= 100) {
+              child.setGravity(0, -300);
+              this.physics.add.collider(child, this.floor);
+            }
+            if (child.x >= 1300) {
+              child.play('balloonBoom');
+
+              setTimeout(() => {
+                child.destroy();
+              }, 1000);
+            }
+            this.isDay ? child.clearTint() : child.setTint(Color.NIGHTTINT);
+          });
+        }
 
     this.healthLevel.setCrop(
       0,
@@ -490,19 +508,6 @@ export class RoomScene extends Phaser.Scene {
       if (this.shit !== undefined && this.shit.active) {
         this.catState.happiness -= 7;
       }
-
-      if (this.balloon !== undefined && this.balloon.active) {
-        this.physics.add.collider(this.balloon, this.floor);
-        this.balloon.setInteractive();
-
-        this.balloon.on('pointerdown', () => {
-          this.control.blowBalloon();
-        });
-
-        if (this.balloon.y <= 100) {
-          this.balloon.setGravity(0, -300);
-        }
-      }
     }, 1000);
   }
 
@@ -535,7 +540,8 @@ export class RoomScene extends Phaser.Scene {
       this.roomNight.setVisible(false);
       this.doorIcon.clearTint();
       this.doorIcon.setAlpha(1);
-      this.balloon !== undefined ? this.balloon.clearTint() : null;
+      this.doorIcon.setScale(0.1);
+      this.doorIcon.y = this.panel.y - 60;
       this.cat.clearTint();
       this.bowl !== undefined && this.bowl.active ? this.bowl.clearTint() : null;
       this.drink !== undefined && this.drink.active ? this.drink.clearTint() : null;
@@ -545,9 +551,10 @@ export class RoomScene extends Phaser.Scene {
       this.roomDay.setVisible(false);
       this.roomNight.setVisible(true);
       this.doorIcon.setAlpha(0.7);
+      this.doorIcon.setScale(0.07);
+      this.doorIcon.y = this.panel.y - 50;
       this.doorIcon.setTint(Color.NIGHTTINT);
       this.cat.setTint(Color.NIGHTTINT);
-      this.balloon !== undefined ? this.balloon.setTint(Color.NIGHTTINT) : null;
       this.bowl !== undefined && this.bowl.active ? this.bowl.setTint(Color.NIGHTTINT) : null;
       this.drink !== undefined && this.drink.active ? this.drink.setTint(Color.NIGHTTINT) : null;
       this.mop !== undefined && this.mop.active ? this.mop.setTint(Color.NIGHTTINT) : null;

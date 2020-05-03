@@ -46,18 +46,18 @@ export class AnimationsCreator {
 
     scene.anims.create({
       key: 'balloonBoom',
-      frames: scene.anims.generateFrameNumbers('balloonBoom', { start: 1, end: 6}),
-      frameRate: 40,
+      frames: scene.anims.generateFrameNumbers('balloonBoom', { start: 1, end: 6 }),
+      frameRate: 20,
       repeat: 0,
       hideOnComplete: true,
-    })
+    });
 
-        scene.anims.create({
-          key: 'bubblesBoom',
-          frames: scene.anims.generateFrameNumbers('bubblesBoom', { start: 1, end: 6 }),
-          frameRate: 30,
-          repeat: 0,
-          hideOnComplete: true,
-        });
+    scene.anims.create({
+      key: 'bubblesBoom',
+      frames: scene.anims.generateFrameNumbers('bubblesBoom', { start: 1, end: 6 }),
+      frameRate: 30,
+      repeat: 0,
+      hideOnComplete: true,
+    });
   }
 }
