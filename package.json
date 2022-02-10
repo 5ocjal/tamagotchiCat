@@ -22,7 +22,7 @@
     "webpack-dev-server": "3.7.2"
   },
   "dependencies": {
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "phaser": "3.20.1"
   },
   "scripts": {
